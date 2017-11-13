@@ -9,14 +9,12 @@ public class IOGrinder extends JavaPlugin {
 
 	public static IOGrinder instance;
 	public PeriodManager periods;
-	public Players players;
 	
 	
 	public void onEnable() {
 		new LoginListener(this);
 		instance = this;
 		periods = new PeriodManager();
-		players = new Players();
 		
 		getLogger().info("IOGrinder enabled");
 		

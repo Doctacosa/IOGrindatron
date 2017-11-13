@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 
 public class LoginListener implements Listener {
 	
+	@SuppressWarnings("unused")
 	private IOGrinder plugin;
 	
 	public LoginListener(IOGrinder plugin) {
@@ -17,12 +18,12 @@ public class LoginListener implements Listener {
 	
 	@EventHandler
 	public void onPlayerLogin(PlayerJoinEvent event) {
-		plugin.players.register(event.getPlayer());
+		Players.register(event.getPlayer());
 	}
 	
 	
 	@EventHandler
 	public void onPlayerLogout(PlayerQuitEvent event) {
-		plugin.players.unregister(event.getPlayer());
+		Players.unregister(event.getPlayer());
 	}
 }

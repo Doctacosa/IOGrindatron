@@ -11,16 +11,11 @@ import com.interordi.iogrinder.utilities.Title;
 
 public class Players {
 
-	Map< UUID , PlayerWatcher > players;
-	
-	
-	public Players() {
-		players = new HashMap< UUID, PlayerWatcher >();
-	}
+	static private Map< UUID , PlayerWatcher > players = new HashMap< UUID, PlayerWatcher >();
 	
 	
 	//Keep a player watcher entry 
-	public void register(Player player) {
+	public static void register(Player player) {
 		UUID uuid = player.getUniqueId();
 		
 		//First login for this server run, add an entry
@@ -47,11 +42,21 @@ public class Players {
 	
 	
 	//Void a player's entry once he logs out 
-	public void unregister(Player player) {
+	public static void unregister(Player player) {
 		PlayerWatcher instance = players.get(player.getUniqueId());
 		if (instance != null) {
 			instance.logout();
 			players.put(player.getUniqueId(), null);
+		}
+	}
+	
+	
+	//Update the period's progress for all online players
+	public static void updatePeriodProgress(float progress) {
+		for (Map.Entry< UUID, PlayerWatcher > entry : players.entrySet()) {
+			PlayerWatcher instance = entry.getValue();
+			if (instance != null)
+				instance.updatePeriodProgress(progress);
 		}
 	}
 	

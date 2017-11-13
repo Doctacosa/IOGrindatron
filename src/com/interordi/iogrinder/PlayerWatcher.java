@@ -1,8 +1,7 @@
 package com.interordi.iogrinder;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.HashMap;
+import java.util.Map;
 import org.bukkit.Bukkit;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
@@ -18,21 +17,28 @@ public class PlayerWatcher {
 	
 	Player player;
 	
-	Set< BossBar > bars;
+	Map< String, BossBar > bars;
 	
 	
 	public PlayerWatcher(Player player) {
 		this.player = player;
 		
-		bars = new HashSet< BossBar >();
+		bars = new HashMap< String, BossBar >();
 	}
 	
 	
 	public void login() {
+		//Add the energy level bar
 		BossBar bossBar = Bukkit.createBossBar("Energy", BarColor.BLUE, BarStyle.SEGMENTED_10 /* .SOLID */);
 		bossBar.addPlayer(player);
 		bossBar.setProgress(0.45);
-		bars.add(bossBar);
+		bars.put("energy", bossBar);
+		
+		//Add the period indicator bar
+		bossBar = Bukkit.createBossBar("Period progress", BarColor.YELLOW, BarStyle.SOLID);
+		bossBar.addPlayer(player);
+		bossBar.setProgress(PeriodManager.getPeriodProgress());
+		bars.put("period", bossBar);
 		
 		//Scoreboard board = this.plugin.getServer().getScoreboardManager().getMainScoreboard();
 		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
@@ -56,6 +62,16 @@ public class PlayerWatcher {
 		if (bars != null) {
 			bars.clear();
 		}
+	}
+	
+	
+	//Update the progress of the current period
+	public void updatePeriodProgress(float progress) {
+		BossBar bar = bars.get("period");
+		if (bar == null)
+			return;
+		
+		bar.setProgress(progress);
 	}
 
 }

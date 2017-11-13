@@ -10,7 +10,7 @@ public class PeriodManager implements Runnable {
 	
 	private int currentPeriod = -1;
 	
-	final public int periodDuration = 4;
+	final public static int periodDuration = 1;	//TODO: Set to 4
 	
 	
 	public PeriodManager() {
@@ -18,12 +18,26 @@ public class PeriodManager implements Runnable {
 	}
 	
 	
-	public int getPeriod() {
+	//Get the number of the current period
+	public static int getPeriod() {
 		
 		LocalDateTime date = LocalDateTime.now();
 		int hour = date.getHour();
 		
 		return hour / periodDuration;
+	}
+	
+	
+	//Get the percentage of the current period's progress, from 0 to 1
+	public static float getPeriodProgress() {
+		
+		LocalDateTime date = LocalDateTime.now();
+		
+		int currentPeriod = date.getHour() / periodDuration;
+		int periodStartHour = currentPeriod * periodDuration;
+		int progress = (date.getHour() - periodStartHour) * 60 + date.getMinute();
+		
+		return (float)progress / (float)(periodDuration * 60);
 	}
 
 
@@ -39,5 +53,8 @@ public class PeriodManager implements Runnable {
 			//TODO: Reset stats, it's a new period!
 			Title.toAll("", "Now changing periods - stats reset!", 0);
 		}
+		
+		//Update the period progress bar on all players
+		Players.updatePeriodProgress(getPeriodProgress());
 	}
 }
