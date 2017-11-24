@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 import com.interordi.iogrinder.utilities.Title;
@@ -57,6 +58,27 @@ public class Players {
 			PlayerWatcher instance = entry.getValue();
 			if (instance != null)
 				instance.updatePeriodProgress(progress);
+		}
+	}
+	
+	
+	//Get the last known position of a player
+	public static Location getLastPosition(Player player) {
+		for (Map.Entry< UUID, PlayerWatcher > entry : players.entrySet()) {
+			PlayerWatcher instance = entry.getValue();
+			if (instance != null)
+				return instance.getPosition();
+		}
+		return null;
+	}
+	
+	
+	//Set the current position of a player
+	public static void setPosition(Player player, Location pos) {
+		for (Map.Entry< UUID, PlayerWatcher > entry : players.entrySet()) {
+			PlayerWatcher instance = entry.getValue();
+			if (instance != null)
+				instance.setPosition(pos);
 		}
 	}
 	

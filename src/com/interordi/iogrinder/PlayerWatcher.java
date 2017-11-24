@@ -2,7 +2,9 @@ package com.interordi.iogrinder;
 
 import java.util.HashMap;
 import java.util.Map;
+
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -16,6 +18,7 @@ import org.bukkit.scoreboard.Scoreboard;
 public class PlayerWatcher {
 	
 	Player player;
+	Location position;
 	
 	Map< String, BossBar > bars;
 	
@@ -73,5 +76,14 @@ public class PlayerWatcher {
 		
 		bar.setProgress(progress);
 	}
-
+	
+	
+	//Get and set the last known position
+	public Location getPosition() {
+		return this.position;
+	}
+	
+	public void setPosition(Location pos) {
+		this.position = pos;
+	}
 }

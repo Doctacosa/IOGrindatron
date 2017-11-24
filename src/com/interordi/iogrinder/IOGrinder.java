@@ -9,17 +9,22 @@ public class IOGrinder extends JavaPlugin {
 
 	public static IOGrinder instance;
 	public PeriodManager periods;
+	private PlayersMove playersMove;
 	
 	
 	public void onEnable() {
 		new LoginListener(this);
 		instance = this;
 		periods = new PeriodManager();
+		playersMove = new PlayersMove(this);
 		
 		getLogger().info("IOGrinder enabled");
 		
 		//Once the server is running, check for new notifications every minute
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, periods, 30*20L, 60*20L);
+		
+		//Check for player movements every 10 seconds
+		getServer().getScheduler().scheduleSyncRepeatingTask(this, playersMove, 10*20L, 10*20L);
 	}
 	
 	
