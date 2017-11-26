@@ -50,8 +50,9 @@ public class PeriodManager implements Runnable {
 		if (nowPeriod != currentPeriod) {
 			currentPeriod = nowPeriod;
 			
-			//TODO: Reset stats, it's a new period!
+			//Reset stats, it's a new period!
 			Title.toAll("", "Now changing periods - stats reset!", 0);
+			Players.fillEnergy();
 		}
 		
 		//Update the period progress bar on all players

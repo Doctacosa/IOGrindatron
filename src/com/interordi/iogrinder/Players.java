@@ -82,4 +82,21 @@ public class Players {
 		}
 	}
 	
+
+	//Find the given PlayerWatcher instance
+	public static PlayerWatcher getPlayerWatcher(Player player) {
+		return players.get(player.getUniqueId());
+	}
+
+	
+	//Fill everyone's energy on a period reset
+	public static void fillEnergy() {
+		for (Map.Entry< UUID, PlayerWatcher > entry : players.entrySet()) {
+			PlayerWatcher instance = entry.getValue();
+			if (instance != null)
+				instance.fillEnergy();
+		}
+	}
+	
+	
 }

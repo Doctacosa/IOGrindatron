@@ -10,6 +10,8 @@ public class IOGrinder extends JavaPlugin {
 	public static IOGrinder instance;
 	public PeriodManager periods;
 	private PlayersMove playersMove;
+	@SuppressWarnings("unused")
+	private PlayerActions playerAction;
 	
 	
 	public void onEnable() {
@@ -17,6 +19,7 @@ public class IOGrinder extends JavaPlugin {
 		instance = this;
 		periods = new PeriodManager();
 		playersMove = new PlayersMove(this);
+		playerAction = new PlayerActions(this);
 		
 		getLogger().info("IOGrinder enabled");
 		
