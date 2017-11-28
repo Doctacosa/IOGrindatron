@@ -1,5 +1,6 @@
 package com.interordi.iogrinder;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -21,7 +22,7 @@ public class Players {
 		
 		//First login for this server run, add an entry
 		if (!players.containsKey(uuid)) {
-			PlayerWatcher instance = new PlayerWatcher(player);
+			PlayerWatcher instance = IOGrinder.db.loadPlayer(player);
 			players.put(uuid, instance);
 			instance.login();
 			
@@ -34,7 +35,7 @@ public class Players {
 				instance.login();
 			} else {
 				//Renew an instance for this player and keep it
-				instance = new PlayerWatcher(player);
+				instance = IOGrinder.db.loadPlayer(player);
 				players.put(uuid, instance);
 				instance.login();
 			}
@@ -47,6 +48,7 @@ public class Players {
 		PlayerWatcher instance = players.get(player.getUniqueId());
 		if (instance != null) {
 			instance.logout();
+			IOGrinder.db.savePlayer(instance, LocalDate.now(), PeriodManager.getPeriod());
 			players.put(player.getUniqueId(), null);
 		}
 	}

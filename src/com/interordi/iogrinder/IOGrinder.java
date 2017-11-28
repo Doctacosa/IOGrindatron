@@ -3,6 +3,7 @@ package com.interordi.iogrinder;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.interordi.iogrinder.PeriodManager;
+import com.interordi.iogrinder.utilities.Database;
 
 
 public class IOGrinder extends JavaPlugin {
@@ -12,6 +13,7 @@ public class IOGrinder extends JavaPlugin {
 	private PlayersMove playersMove;
 	@SuppressWarnings("unused")
 	private PlayerActions playerAction;
+	public static Database db = null;
 	
 	
 	public void onEnable() {
@@ -20,6 +22,9 @@ public class IOGrinder extends JavaPlugin {
 		periods = new PeriodManager();
 		playersMove = new PlayersMove(this);
 		playerAction = new PlayerActions(this);
+		
+		//TODO: Configurable DB info
+		db = new Database("localhost", "root", "", "creeperslab");
 		
 		getLogger().info("IOGrinder enabled");
 		

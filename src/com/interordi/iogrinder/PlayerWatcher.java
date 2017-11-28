@@ -1,5 +1,7 @@
 package com.interordi.iogrinder;
 
+import java.time.LocalDate;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,16 +23,26 @@ import com.interordi.iogrinder.utilities.ActionBar;
 
 public class PlayerWatcher {
 	
-	private final double maxEnergy = 100;
+	private final static double maxEnergy = 100.0;
 	Player player;
 	Location position;
 	double energy = maxEnergy;
+	LocalDate lastDate = null;
+	int lastCycle = -1;
 	
 	Map< String, BossBar > bars;
 	
 	
 	public PlayerWatcher(Player player) {
+		this(player, maxEnergy, null, -1);
+	}
+	
+	
+	public PlayerWatcher(Player player, double energy, LocalDate date, int cycle) {
 		this.player = player;
+		this.energy = energy;
+		this.lastDate = date;
+		this.lastCycle = cycle;
 		
 		bars = new HashMap< String, BossBar >();
 	}
@@ -40,7 +52,7 @@ public class PlayerWatcher {
 		//Add the energy level bar
 		BossBar bossBar = Bukkit.createBossBar("Energy", BarColor.BLUE, BarStyle.SEGMENTED_10 /* .SOLID */);
 		bossBar.addPlayer(player);
-		bossBar.setProgress(0.5);	//TODO: Load last energy level
+		bossBar.setProgress(energy / maxEnergy);
 		bars.put("energy", bossBar);
 		
 		//Add the period indicator bar
@@ -65,8 +77,10 @@ public class PlayerWatcher {
 			score.setScore(player.getLocation().getBlockX());
 		}
 		
-		//TODO: Refill only if the player's last login was on the previous cycle
-		fillEnergy();
+		//Only refill if the player was last active in a previous cycle
+		if (lastDate != null && lastCycle != -1 &&
+			(lastDate != LocalDate.now() || lastCycle != PeriodManager.getPeriod()))
+			fillEnergy();
 	}
 	
 	
@@ -150,5 +164,15 @@ public class PlayerWatcher {
 		if (progress > 1)	progress = 1;
 		
 		bar.setProgress(progress);
+	}
+	
+	
+	//Getters/setters
+	public Player getPlayer() {
+		return player;
+	}
+	
+	public double getEnergy() {
+		return energy;
 	}
 }
