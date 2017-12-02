@@ -2,6 +2,8 @@ package com.interordi.iogrinder;
 
 import java.time.LocalDateTime;
 
+import com.interordi.iogrinder.structs.Target;
+import com.interordi.iogrinder.utilities.ActionBar;
 import com.interordi.iogrinder.utilities.Title;
 
 
@@ -50,8 +52,11 @@ public class PeriodManager implements Runnable {
 		if (nowPeriod != currentPeriod) {
 			currentPeriod = nowPeriod;
 			
+			Target target = IOGrinder.db.getCycleTarget();
+			
 			//Reset stats, it's a new period!
 			Title.toAll("", "Now changing periods - stats reset!", 0);
+			ActionBar.toAll("New target: &l" + target.label);
 			Players.fillEnergy();
 		}
 		

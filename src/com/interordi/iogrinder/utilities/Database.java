@@ -9,7 +9,9 @@ import java.time.LocalDate;
 
 import org.bukkit.entity.Player;
 
+import com.interordi.iogrinder.PeriodManager;
 import com.interordi.iogrinder.PlayerWatcher;
+import com.interordi.iogrinder.structs.Target;
 
 public class Database {
 	
@@ -70,7 +72,7 @@ public class Database {
 	}
 	
 	
-	//Update a player's custom title
+	//Save the player's current settings
 	public void savePlayer(PlayerWatcher watcher, LocalDate date, int cycle) {
 
 		Connection conn = null;
@@ -109,5 +111,53 @@ public class Database {
 			System.out.println("SQLState: " + ex.getSQLState());
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}
+	}
+	
+	
+	//Get the target of the current cycle
+	public Target getCycleTarget(LocalDate date, int cycle) {
+		
+		Connection conn = null;
+		String query = "";
+		Target target = null;
+		
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://" + dbServer + "/" + dbBase + "?user=" + dbUsername + "&password=" + dbPassword);
+			
+			//Get the player's data
+			PreparedStatement pstmt = conn.prepareStatement("" +
+				"SELECT label, target, durability, amount " + 
+				"FROM grindatron__cycles " +
+				"WHERE date = ? " +
+				"  AND cycle = ? "
+			);
+			
+			pstmt.setString(1, date.toString());
+			pstmt.setInt(2, cycle);
+			System.out.println(pstmt.toString());
+			ResultSet rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				target = new Target(rs.getString("label"), rs.getString("target"), rs.getInt("durability"), rs.getInt("amount"));
+			}
+			rs.close();
+			
+		} catch (SQLException ex) {
+			// handle any errors
+			System.out.println("Query: " + query);
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+		}
+
+		//TODO: Better fallback
+		if (target == null)
+			target = new Target("a torch", "torch", -1, 1);
+
+		return target;
+	}
+
+	public Target getCycleTarget() {
+		return getCycleTarget(LocalDate.now(), PeriodManager.getPeriod());
 	}
 }

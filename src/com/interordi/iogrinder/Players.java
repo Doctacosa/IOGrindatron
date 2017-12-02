@@ -8,6 +8,8 @@ import java.util.UUID;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
+import com.interordi.iogrinder.structs.Target;
+import com.interordi.iogrinder.utilities.ActionBar;
 import com.interordi.iogrinder.utilities.Title;
 
 
@@ -40,6 +42,9 @@ public class Players {
 				instance.login();
 			}
 		}
+		
+		Target target = IOGrinder.db.getCycleTarget();
+		ActionBar.toPlayer("Current target: &l" + target.label, player, 10);
 	}
 	
 	
