@@ -28,7 +28,7 @@ public class ActionBar {
 	}
 	
 	
-	public static void toPlayer(String message, Player player) {
+	public static void toPlayer(String message, Player player, int delay) {
 		
 		final String formattedMessage = format(message);
 		
@@ -40,9 +40,13 @@ public class ActionBar {
 				
 				player.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR, new TextComponent(formattedMessage));
 			}
-		}, 0L);
+		}, delay * 0L);
 	}
-	
+
+	public static void toPlayer(String message, Player player) {
+		toPlayer(message, player, 0);
+	}
+
 	
 	private static String format(String message) {
 		return message.replace("&", "§");
