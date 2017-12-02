@@ -31,7 +31,7 @@ public class PeriodManager implements Runnable {
 	
 	
 	//Get the percentage of the current period's progress, from 0 to 1
-	public static float getPeriodProgress() {
+	public static double getPeriodProgress() {
 		
 		LocalDateTime date = LocalDateTime.now();
 		
@@ -39,7 +39,7 @@ public class PeriodManager implements Runnable {
 		int periodStartHour = currentPeriod * periodDuration;
 		int progress = (date.getHour() - periodStartHour) * 60 + date.getMinute();
 		
-		return (float)progress / (float)(periodDuration * 60);
+		return (double)progress / (double)(periodDuration * 60);
 	}
 
 

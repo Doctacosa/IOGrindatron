@@ -60,7 +60,7 @@ public class Players {
 	
 	
 	//Update the period's progress for all online players
-	public static void updatePeriodProgress(float progress) {
+	public static void updatePeriodProgress(double progress) {
 		for (Map.Entry< UUID, PlayerWatcher > entry : players.entrySet()) {
 			PlayerWatcher instance = entry.getValue();
 			if (instance != null)

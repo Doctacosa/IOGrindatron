@@ -81,7 +81,6 @@ public class Database {
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://" + dbServer + "/" + dbBase + "?user=" + dbUsername + "&password=" + dbPassword);
 			
-			//TODO: Save actual date
 			if (date == null)
 				date = LocalDate.now();
 			
@@ -134,7 +133,6 @@ public class Database {
 			
 			pstmt.setString(1, date.toString());
 			pstmt.setInt(2, cycle);
-			System.out.println(pstmt.toString());
 			ResultSet rs = pstmt.executeQuery();
 			
 			while (rs.next()) {

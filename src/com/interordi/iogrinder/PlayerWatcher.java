@@ -79,8 +79,9 @@ public class PlayerWatcher {
 		
 		//Only refill if the player was last active in a previous cycle
 		if (lastDate != null && lastCycle != -1 &&
-			(lastDate != LocalDate.now() || lastCycle != PeriodManager.getPeriod()))
+			(!lastDate.equals(LocalDate.now()) || lastCycle != PeriodManager.getPeriod())) {
 			fillEnergy();
+		}
 	}
 	
 	
@@ -92,7 +93,7 @@ public class PlayerWatcher {
 	
 	
 	//Update the progress of the current period
-	public void updatePeriodProgress(float progress) {
+	public void updatePeriodProgress(double progress) {
 		BossBar bar = bars.get("period");
 		if (bar == null)
 			return;
