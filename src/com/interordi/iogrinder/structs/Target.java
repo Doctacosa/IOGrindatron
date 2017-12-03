@@ -19,5 +19,8 @@ public class Target {
 		this.item = item;
 		this.durability = durability;
 		this.amount = amount;
+		
+		if (this.label.isEmpty())
+			this.label = item.replace('_', ' ');
 	}
 }
