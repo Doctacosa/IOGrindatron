@@ -30,6 +30,7 @@ public class PlayerWatcher {
 	int lastCycle = -1;
 	int score = 0;
 	boolean currentDone = false;
+	int consecutiveDays = 0;
 	
 	Map< String, BossBar > bars;
 	
@@ -183,5 +184,15 @@ public class PlayerWatcher {
 		this.score++;
 		this.currentDone = true;
 		updateScore();
+	}
+
+
+	//Get / set the amount of consecutive days played
+	public void giveConnectionBonus(int nbDays) {
+		this.consecutiveDays = nbDays;
+	}
+
+	public int getConsecutiveDays() {
+		return this.consecutiveDays;
 	}
 }

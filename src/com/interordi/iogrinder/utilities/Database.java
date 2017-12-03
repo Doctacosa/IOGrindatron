@@ -40,8 +40,50 @@ public class Database {
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://" + dbServer + "/" + dbBase + "?user=" + dbUsername + "&password=" + dbPassword);
 			
-			//Get the player's data
+			//Get the number of consecutive days with logins in a row BEFORE registering today
 			PreparedStatement pstmt = conn.prepareStatement("" +
+				"SELECT date " +
+				"FROM grindatron__players_daily " +
+				"WHERE uuid = ? " +
+				"ORDER BY date DESC " +
+				"LIMIT 5"
+			);
+			pstmt.setString(1, player.getUniqueId().toString());
+			ResultSet rs = pstmt.executeQuery();
+			int nbDays = 0;
+			boolean giveConnectionBonus = false;
+			LocalDate day = LocalDate.now().minusDays(1);
+			while (rs.next()) {
+				String entryDate = rs.getString("date");
+				
+				if (entryDate.equals(LocalDate.now().toString())) {
+					//Player already earned his daily bonus, skip
+					giveConnectionBonus = false;
+					break;
+				}
+				
+				if (entryDate.equals(day.toString())) {
+					nbDays++;
+					giveConnectionBonus = true;
+				} else {
+					break;
+				}
+				day = day.minusDays(1);
+			}
+			rs.close();
+			
+			
+			//Mark this player's visit for the day
+			pstmt = conn.prepareStatement("" +
+				"INSERT IGNORE INTO grindatron__players_daily (uuid, date) " +
+				"VALUES (?, ?)"
+			);
+			pstmt.setString(1, player.getUniqueId().toString());
+			pstmt.setString(2, LocalDate.now().toString());
+			pstmt.executeUpdate();
+			
+			//Get the player's data
+			pstmt = conn.prepareStatement("" +
 				"SELECT energy, last_date, last_cycle, " +
 				"( " +
 				"	SELECT COUNT(*) " +
@@ -66,7 +108,7 @@ public class Database {
 			pstmt.setString(3, LocalDate.now().toString());
 			pstmt.setInt(4, PeriodManager.getPeriod());
 			pstmt.setString(5, player.getUniqueId().toString());
-			ResultSet rs = pstmt.executeQuery();
+			rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
 				watcher = new PlayerWatcher(
@@ -78,12 +120,15 @@ public class Database {
 					rs.getInt("current_done") == 1
 				);
 			}
-			rs.close();
 			
 			if (watcher == null) {
 				watcher = new PlayerWatcher(player);
 				System.out.println("Not FOUND");
 			}
+			
+			if (giveConnectionBonus && nbDays > 0)
+				watcher.giveConnectionBonus(nbDays);
+			
 			
 		} catch (SQLException ex) {
 			// handle any errors

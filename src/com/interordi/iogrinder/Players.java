@@ -6,10 +6,14 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import com.interordi.iogrinder.structs.Target;
 import com.interordi.iogrinder.utilities.ActionBar;
+import com.interordi.iogrinder.utilities.Chat;
 import com.interordi.iogrinder.utilities.Title;
 
 
@@ -21,16 +25,17 @@ public class Players {
 	//Keep a player watcher entry 
 	public static void register(Player player) {
 		UUID uuid = player.getUniqueId();
+		PlayerWatcher instance = null;
 		
 		//First login for this server run, add an entry
 		if (!players.containsKey(uuid)) {
-			PlayerWatcher instance = IOGrinder.db.loadPlayer(player);
+			instance = IOGrinder.db.loadPlayer(player);
 			players.put(uuid, instance);
 			instance.login();
 			
 			Title.toPlayer("", "Welcome to... &4the Grindatron!", 5, player);
 		} else {
-			PlayerWatcher instance = players.get(uuid);
+			instance = players.get(uuid);
 			
 			if (instance != null) {
 				//Player was already logged in
@@ -45,6 +50,39 @@ public class Players {
 		
 		Target target = IOGrinder.db.getCycleTarget();
 		ActionBar.toPlayer("Current target: &l" + target.label, player, 10);
+		
+		//Give a connection bonus if one was earned
+		if (instance != null && instance.getConsecutiveDays() >= 1) {
+			PlayerInventory inv = instance.getPlayer().getInventory();
+			String itemDesc = "";
+			
+			switch (instance.getConsecutiveDays()) {
+				case 1:
+					inv.addItem(new ItemStack(Material.IRON_INGOT));
+					itemDesc = "1 iron ingot";
+					break;
+				case 2:
+					inv.addItem(new ItemStack(Material.IRON_PICKAXE));
+					itemDesc = "1 iron pickaxe";
+					break;
+				case 3:
+					inv.addItem(new ItemStack(Material.COOKED_BEEF, 10));
+					itemDesc = "10 cooked beef";
+					break;
+				case 4:
+					inv.addItem(new ItemStack(Material.DIAMOND));
+					itemDesc = "1 diamond";
+					break;
+				default:
+					inv.addItem(new ItemStack(Material.DIAMOND_ORE));
+					itemDesc = "1 diamond ore";
+					break;
+			};
+			
+			Chat.toPlayer("&e&lDaily connection bonus: &r[&b&l" + itemDesc + "&r]", instance.getPlayer(), 5);
+			
+		}
+			
 	}
 	
 	
