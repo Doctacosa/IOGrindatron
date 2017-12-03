@@ -1,12 +1,17 @@
 package com.interordi.iogrinder;
 
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import com.interordi.iogrinder.PeriodManager;
+import com.interordi.iogrinder.structs.Target;
+import com.interordi.iogrinder.utilities.ActionBar;
 import com.interordi.iogrinder.utilities.Database;
 
 
@@ -48,6 +53,28 @@ public class IOGrinder extends JavaPlugin implements Runnable {
 	}
 
 
+	@Override
+	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+		if (cmd.getName().equalsIgnoreCase("target")) {
+			
+			Target target = IOGrinder.db.getCycleTarget();
+			
+			//Fancy display to players, basic for others like the console
+			if (sender instanceof Player) {
+				Player player = (Player)sender;
+				ActionBar.toPlayer("Current target: &l" + target.label, player, 10);
+			} else {
+				sender.sendMessage("Current target: " + target.label);
+				return true;
+			}
+			
+			return true;
+		}
+		
+		return false;
+	}
+	
+	
 	@Override
 	public void run() {
 		//Add the basic scoreboard when the server is loaded

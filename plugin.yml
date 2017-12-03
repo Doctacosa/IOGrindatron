@@ -1,3 +1,8 @@
 name: IOGrinder
 main: com.interordi.iogrinder.IOGrinder
 version: 1.0
+
+commands:
+  target:
+    description: Get the target of the current cycle
+    usage: /target
