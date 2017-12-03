@@ -1,7 +1,6 @@
 package com.interordi.iogrinder;
 
 import java.time.LocalDate;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +12,7 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
@@ -33,6 +33,7 @@ public class PlayerWatcher {
 	int consecutiveDays = 0;
 	
 	Map< String, BossBar > bars;
+	static Map< String, Integer > scores = new HashMap< String, Integer>();
 	
 	
 	public PlayerWatcher(Player player) {
@@ -79,6 +80,7 @@ public class PlayerWatcher {
 		if (bars != null) {
 			bars.clear();
 		}
+		removeScore();
 	}
 	
 	
@@ -165,6 +167,32 @@ public class PlayerWatcher {
 		if (objective != null) {
 			Score myScore = objective.getScore(player.getDisplayName());
 			myScore.setScore(this.score);
+			
+			scores.put(player.getDisplayName(), this.score);
+		}
+	}
+	
+	
+	//Remove a player's score from the display
+	public void removeScore() {
+		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+		Objective objective = board.getObjective("score");
+		if (objective != null) {
+			//Remove a player then rebuild the scoreboard from the known data
+			objective.unregister();
+			objective = null;
+			
+			objective = board.registerNewObjective("score", "dummy");
+			board.clearSlot(DisplaySlot.SIDEBAR);
+			objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+			objective.setDisplayName("Players");
+			
+			scores.remove(player.getDisplayName());
+			
+			for (String key : scores.keySet()) {
+				Score myScore = objective.getScore(key);
+				myScore.setScore(scores.get(key));
+			}
 		}
 	}
 	
