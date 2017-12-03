@@ -31,7 +31,7 @@ public class PlayersMove implements Runnable, Listener {
 			if (oldPos != null && newPos != null && oldPos.getWorld() == newPos.getWorld()) {
 				double movement = oldPos.distance(newPos);
 				
-				if (movement > 0.0) {
+				if (movement > 1.0) {
 					//ActionBar.toPlayer("Movement: " + movement, player);
 					Players.getPlayerWatcher(player).subEnergy(movement);
 				}
