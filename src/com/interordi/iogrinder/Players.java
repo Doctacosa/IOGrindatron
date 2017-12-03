@@ -28,7 +28,7 @@ public class Players {
 			players.put(uuid, instance);
 			instance.login();
 			
-			Title.toPlayer("", "Welcome to... &4the Grinder!", 5, player);
+			Title.toPlayer("", "Welcome to... &4the Grindatron!", 5, player);
 		} else {
 			PlayerWatcher instance = players.get(uuid);
 			

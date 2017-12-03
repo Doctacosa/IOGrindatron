@@ -55,7 +55,7 @@ public class PlayerActions implements Listener {
 			if (item != null && item.getType() != Material.AIR) {
 				//System.out.println("Material: " + item.getType().name() + " x" + item.getAmount());
 				
-				//If we have everything required, empty the inventory on the next tick
+				//Do it on the next tick so that the item actually drops
 				Bukkit.getScheduler().runTaskLater(IOGrinder.instance, new Runnable() {
 					@Override
 					public void run() {
