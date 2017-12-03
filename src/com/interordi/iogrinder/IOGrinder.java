@@ -83,8 +83,10 @@ public class IOGrinder extends JavaPlugin implements Runnable {
 		//board.resetScores("score");
 		Objective objective = board.getObjective("score");
 		
-		if (objective == null)
-			objective = board.registerNewObjective("score", "dummy");
+		if (objective != null)
+			objective.unregister();
+		
+		objective = board.registerNewObjective("score", "dummy");
 		board.clearSlot(DisplaySlot.SIDEBAR);
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 		objective.setDisplayName("Players");
