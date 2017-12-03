@@ -42,16 +42,41 @@ public class Database {
 			
 			//Get the player's data
 			PreparedStatement pstmt = conn.prepareStatement("" +
-				"SELECT energy, last_date, last_cycle " + 
+				"SELECT energy, last_date, last_cycle, " +
+				"( " +
+				"	SELECT COUNT(*) " +
+				"	FROM grindatron__cycles_players " +
+				"	WHERE uuid = ? " +
+				"	  AND done = 1 " +
+				") AS score, " +
+				"( " +
+				"	SELECT COUNT(*) " +
+				"	FROM grindatron__cycles_players " +
+				"	WHERE uuid = ? " +
+				"	  AND done = 1 " +
+				"	  AND date = ? " +
+				"	  AND cycle = ? " +
+				" ) AS current_done " +
 				"FROM grindatron__players " +
 				"WHERE uuid = ?"
 			);
 			
 			pstmt.setString(1, player.getUniqueId().toString());
+			pstmt.setString(2, player.getUniqueId().toString());
+			pstmt.setString(3, LocalDate.now().toString());
+			pstmt.setInt(4, PeriodManager.getPeriod());
+			pstmt.setString(5, player.getUniqueId().toString());
 			ResultSet rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				watcher = new PlayerWatcher(player, rs.getDouble("energy"), LocalDate.parse(rs.getString("last_date")), rs.getInt("last_cycle"));
+				watcher = new PlayerWatcher(
+					player,
+					rs.getDouble("energy"),
+					LocalDate.parse(rs.getString("last_date")),
+					rs.getInt("last_cycle"),
+					rs.getInt("score"),
+					rs.getInt("current_done") == 1
+				);
 			}
 			rs.close();
 			
@@ -136,7 +161,7 @@ public class Database {
 			ResultSet rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				target = new Target(rs.getString("label"), rs.getString("target"), rs.getInt("durability"), rs.getInt("amount"));
+				target = new Target(date, cycle, rs.getString("label"), rs.getString("target"), rs.getInt("durability"), rs.getInt("amount"));
 			}
 			rs.close();
 			
@@ -150,12 +175,47 @@ public class Database {
 
 		//TODO: Better fallback
 		if (target == null)
-			target = new Target("a torch", "torch", -1, 1);
+			target = new Target(date, cycle, "a torch", "torch", -1, 1);
 
 		return target;
 	}
 
 	public Target getCycleTarget() {
 		return getCycleTarget(LocalDate.now(), PeriodManager.getPeriod());
+	}
+	
+	
+	//Save a player's successful target
+	public void savePlayerTarget(Player player, Target target) {
+
+		Connection conn = null;
+		String query = "";
+		
+		try {
+			conn = DriverManager.getConnection("jdbc:mysql://" + dbServer + "/" + dbBase + "?user=" + dbUsername + "&password=" + dbPassword);
+			
+			PreparedStatement pstmt = null;
+			
+			//Set or update the title
+			pstmt = conn.prepareStatement("" +
+				"INSERT IGNORE INTO grindatron__cycles_players (date, cycle, uuid, amount, done) " +
+				"VALUES (?, ?, ?, ?, ?) "
+			);
+			pstmt.setString(1, target.date.toString());
+			pstmt.setInt(2, target.cycle);
+			pstmt.setString(3, player.getUniqueId().toString());
+			pstmt.setDouble(4, target.amount);
+			pstmt.setDouble(5, 1);
+			
+			@SuppressWarnings("unused")
+			int res = pstmt.executeUpdate();
+			
+		} catch (SQLException ex) {
+			// handle any errors
+			System.out.println("Query: " + query);
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+		}
 	}
 }

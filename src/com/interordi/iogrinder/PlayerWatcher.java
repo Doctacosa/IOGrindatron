@@ -13,7 +13,6 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
@@ -29,20 +28,24 @@ public class PlayerWatcher {
 	double energy = maxEnergy;
 	LocalDate lastDate = null;
 	int lastCycle = -1;
+	int score = 0;
+	boolean currentDone = false;
 	
 	Map< String, BossBar > bars;
 	
 	
 	public PlayerWatcher(Player player) {
-		this(player, maxEnergy, null, -1);
+		this(player, maxEnergy, null, -1, 0, false);
 	}
 	
 	
-	public PlayerWatcher(Player player, double energy, LocalDate date, int cycle) {
+	public PlayerWatcher(Player player, double energy, LocalDate date, int cycle, int score, boolean currentDone) {
 		this.player = player;
 		this.energy = energy;
 		this.lastDate = date;
 		this.lastCycle = cycle;
+		this.score = score;
+		this.currentDone = currentDone;
 		
 		bars = new HashMap< String, BossBar >();
 	}
@@ -61,21 +64,7 @@ public class PlayerWatcher {
 		bossBar.setProgress(PeriodManager.getPeriodProgress());
 		bars.put("period", bossBar);
 		
-		//Scoreboard board = this.plugin.getServer().getScoreboardManager().getMainScoreboard();
-		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-		//board.resetScores("score");
-		Objective objective = board.getObjective("score");
-		
-		if (objective == null)
-			objective = board.registerNewObjective("score", "dummy");
-		board.clearSlot(DisplaySlot.SIDEBAR);
-		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-		objective.setDisplayName("Players");
-		
-		if (objective != null) {
-			Score score = objective.getScore(player.getDisplayName());
-			score.setScore(player.getLocation().getBlockX());
-		}
+		updateScore();
 		
 		//Only refill if the player was last active in a previous cycle
 		if (lastDate != null && lastCycle != -1 &&
@@ -168,6 +157,17 @@ public class PlayerWatcher {
 	}
 	
 	
+	//Update a player's score on the global display
+	public void updateScore() {
+		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+		Objective objective = board.getObjective("score");
+		if (objective != null) {
+			Score myScore = objective.getScore(player.getDisplayName());
+			myScore.setScore(this.score);
+		}
+	}
+	
+	
 	//Getters/setters
 	public Player getPlayer() {
 		return player;
@@ -175,5 +175,13 @@ public class PlayerWatcher {
 	
 	public double getEnergy() {
 		return energy;
+	}
+
+
+	//Increase the player's score as needed
+	public void completeTarget() {
+		this.score++;
+		this.currentDone = true;
+		updateScore();
 	}
 }

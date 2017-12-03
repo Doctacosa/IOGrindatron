@@ -1,12 +1,16 @@
 package com.interordi.iogrinder;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scoreboard.DisplaySlot;
+import org.bukkit.scoreboard.Objective;
+import org.bukkit.scoreboard.Scoreboard;
 
 import com.interordi.iogrinder.PeriodManager;
 import com.interordi.iogrinder.utilities.Database;
 
 
-public class IOGrinder extends JavaPlugin {
+public class IOGrinder extends JavaPlugin implements Runnable {
 
 	public static IOGrinder instance;
 	public PeriodManager periods;
@@ -28,6 +32,9 @@ public class IOGrinder extends JavaPlugin {
 		
 		getLogger().info("IOGrinder enabled");
 		
+		//Run initial required tasks once
+		getServer().getScheduler().scheduleSyncDelayedTask(this, this);
+		
 		//Once the server is running, check for new notifications every minute
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, periods, 30*20L, 60*20L);
 		
@@ -38,5 +45,21 @@ public class IOGrinder extends JavaPlugin {
 	
 	public void onDisable() {
 		getLogger().info("IOGrinder disabled");
+	}
+
+
+	@Override
+	public void run() {
+		//Add the basic scoreboard when the server is loaded
+		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+		//Scoreboard board = this.plugin.getServer().getScoreboardManager().getMainScoreboard();
+		//board.resetScores("score");
+		Objective objective = board.getObjective("score");
+		
+		if (objective == null)
+			objective = board.registerNewObjective("score", "dummy");
+		board.clearSlot(DisplaySlot.SIDEBAR);
+		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+		objective.setDisplayName("Players");
 	}
 }
