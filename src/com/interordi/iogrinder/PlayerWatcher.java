@@ -223,4 +223,11 @@ public class PlayerWatcher {
 	public int getConsecutiveDays() {
 		return this.consecutiveDays;
 	}
+
+
+	//Reset a player's stats after a cycle
+	public void resetCycle() {
+		currentDone = false;
+		fillEnergy();
+	}
 }

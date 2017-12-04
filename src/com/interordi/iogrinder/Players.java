@@ -138,6 +138,16 @@ public class Players {
 				instance.fillEnergy();
 		}
 	}
+
+	
+	//Reset stats at the beginning of a cycle
+	public static void resetCycle() {
+		for (Map.Entry< UUID, PlayerWatcher > entry : players.entrySet()) {
+			PlayerWatcher instance = entry.getValue();
+			if (instance != null)
+				instance.resetCycle();
+		}
+	}
 	
 	
 }

@@ -57,7 +57,7 @@ public class PeriodManager implements Runnable {
 			//Reset stats, it's a new period!
 			Title.toAll("", "Now changing periods - stats reset!", 0);
 			ActionBar.toAll("New target: &l" + target.label);
-			Players.fillEnergy();
+			Players.resetCycle();
 		}
 		
 		//Update the period progress bar on all players
