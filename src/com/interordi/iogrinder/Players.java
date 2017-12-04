@@ -109,22 +109,18 @@ public class Players {
 	
 	//Get the last known position of a player
 	public static Location getLastPosition(Player player) {
-		for (Map.Entry< UUID, PlayerWatcher > entry : players.entrySet()) {
-			PlayerWatcher instance = entry.getValue();
-			if (instance != null)
-				return instance.getPosition();
-		}
+		PlayerWatcher instance = players.get(player.getUniqueId());
+		if (instance != null)
+			return instance.getPosition();
 		return null;
 	}
 	
 	
 	//Set the current position of a player
 	public static void setPosition(Player player, Location pos) {
-		for (Map.Entry< UUID, PlayerWatcher > entry : players.entrySet()) {
-			PlayerWatcher instance = entry.getValue();
-			if (instance != null)
-				instance.setPosition(pos);
-		}
+		PlayerWatcher instance = players.get(player.getUniqueId());
+		if (instance != null)
+			instance.setPosition(pos);
 	}
 	
 
