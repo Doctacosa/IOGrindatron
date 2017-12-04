@@ -33,7 +33,8 @@ public class IOGrinder extends JavaPlugin implements Runnable {
 		playerAction = new PlayerActions(this);
 		
 		//TODO: Configurable DB info
-		db = new Database("localhost", "root", "", "creeperslab");
+		//db = new Database("localhost", "root", "", "creeperslab");
+		db = new Database("localhost", "creeperslab", "***REMOVED***", "creeperslab");
 		
 		getLogger().info("IOGrinder enabled");
 		

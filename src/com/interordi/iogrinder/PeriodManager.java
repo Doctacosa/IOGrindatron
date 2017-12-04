@@ -12,7 +12,7 @@ public class PeriodManager implements Runnable {
 	
 	private int currentPeriod = -1;
 	
-	final public static int periodDuration = 1;	//TODO: Set to 4
+	final public static int periodDuration = 4;
 	
 	
 	public PeriodManager() {

@@ -22,7 +22,7 @@ import com.interordi.iogrinder.utilities.ActionBar;
 
 public class PlayerWatcher {
 	
-	private final static double maxEnergy = 100.0;
+	private final static double maxEnergy = 4000.0;
 	Player player;
 	Location position;
 	double energy = maxEnergy;

@@ -22,7 +22,7 @@ public class PlayerActions implements Listener {
 	
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
-		Players.getPlayerWatcher(e.getPlayer()).subEnergy(1);
+		Players.getPlayerWatcher(e.getPlayer()).subEnergy(0.5);
 	}
 	
 
@@ -33,7 +33,7 @@ public class PlayerActions implements Listener {
 		
 		if (event.getEntity() instanceof Player) {
 			Player p = (Player)event.getEntity();
-			Players.getPlayerWatcher(p).subEnergy(25);
+			Players.getPlayerWatcher(p).subEnergy(1000);
 		}
 	}
 	
