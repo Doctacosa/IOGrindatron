@@ -40,7 +40,7 @@ public class ActionBar {
 				
 				player.spigot().sendMessage(net.md_5.bungee.api.ChatMessageType.ACTION_BAR, new TextComponent(formattedMessage));
 			}
-		}, delay * 0L);
+		}, delay * 20L);
 	}
 
 	public static void toPlayer(String message, Player player) {
