@@ -31,9 +31,12 @@ public class PlayersMove implements Runnable, Listener {
 			if (oldPos != null && newPos != null && oldPos.getWorld() == newPos.getWorld()) {
 				double movement = oldPos.distance(newPos);
 				
-				if (movement > 1.0) {
+				if (movement > 0.5) {
 					//ActionBar.toPlayer("Movement: " + movement, player);
-					Players.getPlayerWatcher(player).subEnergy(movement);
+					if (player.isInsideVehicle())
+						Players.getPlayerWatcher(player).subEnergy(movement / 2);
+					else
+						Players.getPlayerWatcher(player).subEnergy(movement);
 				}
 			}
 			

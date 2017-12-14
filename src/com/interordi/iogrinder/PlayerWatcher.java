@@ -54,6 +54,12 @@ public class PlayerWatcher {
 	
 	
 	public void login() {
+		
+		if (energy > maxEnergy)
+			energy = maxEnergy;
+		else if (energy < 0.0)
+			energy = 0.0;
+		
 		//Add the energy level bar
 		BossBar bossBar = Bukkit.createBossBar("Energy", BarColor.BLUE, BarStyle.SEGMENTED_10 /* .SOLID */);
 		bossBar.addPlayer(player);
@@ -125,7 +131,7 @@ public class PlayerWatcher {
 			energy = 0;
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 655200, 2));
 			player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 655200, 3));
-			player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 655200, 4));
+			player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 655200, 0));
 			ActionBar.toPlayer("&4Out of energy!", player);
 		}
 		updateEnergy();

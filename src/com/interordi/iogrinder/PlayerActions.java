@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -20,6 +21,12 @@ public class PlayerActions implements Listener {
 	}
 	
 	
+	@EventHandler
+	public void onBlockPlace(BlockPlaceEvent e) {
+		Players.getPlayerWatcher(e.getPlayer()).subEnergy(0.17);
+	}
+	
+
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
 		Players.getPlayerWatcher(e.getPlayer()).subEnergy(0.5);
