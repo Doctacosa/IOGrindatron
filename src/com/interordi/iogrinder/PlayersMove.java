@@ -1,6 +1,7 @@
 package com.interordi.iogrinder;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -31,7 +32,7 @@ public class PlayersMove implements Runnable, Listener {
 			if (oldPos != null && newPos != null && oldPos.getWorld() == newPos.getWorld()) {
 				double movement = oldPos.distance(newPos);
 				
-				if (movement > 0.5) {
+				if (movement > 0.5 && (player.getGameMode() == GameMode.SURVIVAL || player.getGameMode() == GameMode.ADVENTURE)) {
 					//ActionBar.toPlayer("Movement: " + movement, player);
 					if (player.isInsideVehicle())
 						Players.getPlayerWatcher(player).subEnergy(movement / 2);
