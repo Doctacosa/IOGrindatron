@@ -63,7 +63,7 @@ public class IOGrinder extends JavaPlugin implements Runnable {
 			//Fancy display to players, basic for others like the console
 			if (sender instanceof Player) {
 				Player player = (Player)sender;
-				ActionBar.toPlayer("Current target: &l" + target.label, player, 10);
+				ActionBar.toPlayer("Current target: &l" + target.label, player);
 			} else {
 				sender.sendMessage("Current target: " + target.label);
 				return true;
