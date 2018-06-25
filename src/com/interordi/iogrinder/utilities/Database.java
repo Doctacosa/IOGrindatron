@@ -21,6 +21,8 @@ public class Database {
 	private String dbPassword = "";
 	private String dbBase = "";
 	
+	private String database = "";
+	
 	
 	public Database(String server, String username, String password, String base) {
 		
@@ -28,6 +30,8 @@ public class Database {
 		this.dbUsername = username;
 		this.dbPassword = password;
 		this.dbBase = base;
+		
+		database = "jdbc:mysql://" + dbServer + "/" + dbBase + "?user=" + dbUsername + "&password=" + dbPassword + "&useSSL=false";
 	}
 	
 	
@@ -38,7 +42,7 @@ public class Database {
 		PlayerWatcher watcher = null;
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://" + dbServer + "/" + dbBase + "?user=" + dbUsername + "&password=" + dbPassword);
+			conn = DriverManager.getConnection(database);
 			
 			//Get the number of consecutive days with logins in a row BEFORE registering today
 			PreparedStatement pstmt = conn.prepareStatement("" +
@@ -149,7 +153,7 @@ public class Database {
 		String query = "";
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://" + dbServer + "/" + dbBase + "?user=" + dbUsername + "&password=" + dbPassword);
+			conn = DriverManager.getConnection(database);
 			
 			if (date == null)
 				date = LocalDate.now();
@@ -191,7 +195,7 @@ public class Database {
 		Target target = null;
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://" + dbServer + "/" + dbBase + "?user=" + dbUsername + "&password=" + dbPassword);
+			conn = DriverManager.getConnection(database);
 			
 			//Get the player's data
 			PreparedStatement pstmt = conn.prepareStatement("" +
@@ -237,7 +241,7 @@ public class Database {
 		String query = "";
 		
 		try {
-			conn = DriverManager.getConnection("jdbc:mysql://" + dbServer + "/" + dbBase + "?user=" + dbUsername + "&password=" + dbPassword);
+			conn = DriverManager.getConnection(database);
 			
 			PreparedStatement pstmt = null;
 			
