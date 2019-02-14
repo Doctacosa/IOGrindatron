@@ -6,12 +6,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import org.bukkit.entity.Player;
 
 import com.interordi.iogrinder.PeriodManager;
 import com.interordi.iogrinder.PlayerWatcher;
 import com.interordi.iogrinder.structs.Target;
+import com.interordi.iogrinder.structs.PossibleTarget;
 
 public class Database {
 	
@@ -222,15 +226,111 @@ public class Database {
 			System.out.println("VendorError: " + ex.getErrorCode());
 		}
 
-		//TODO: Better fallback
+		//If no target has been defined, generate a new one
 		if (target == null)
-			target = new Target(date, cycle, "a torch", "torch", 1);
+			target = generateTarget(date, cycle);
 
 		return target;
 	}
 
 	public Target getCycleTarget() {
 		return getCycleTarget(LocalDate.now(), PeriodManager.getPeriod());
+	}
+	
+	
+	//Generate a new target and save it to the database
+	public Target generateTarget(LocalDate date, int cycle) {
+		Connection conn = null;
+		String query = "";
+		
+		//Get the list of potential targets
+		Map< Integer, PossibleTarget > possibleTargets = new HashMap< Integer, PossibleTarget >();
+		
+		try {
+			conn = DriverManager.getConnection(database);
+			
+			PreparedStatement pstmt = conn.prepareStatement("" +
+				"SELECT item, rarity, max, label " + 
+				"FROM grindatron__possible_targets " +
+				"WHERE max != -1 "
+			);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			int i = 0;
+			while (rs.next()) {
+				possibleTargets.put(i, new PossibleTarget(rs.getString("item"), rs.getInt("rarity"), rs.getInt("max"), rs.getString("label")));
+				i += 1;
+			}
+			rs.close();
+			
+		} catch (SQLException ex) {
+			// handle any errors
+			System.out.println("Query: " + query);
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		
+		
+		//Pick a random target and determine the amount
+		int amount = 1;
+		PossibleTarget selected = null;
+		Random rand = new Random();
+		int pos = rand.nextInt(possibleTargets.size());
+		amount = 1;
+		double oddsNext = 0;
+		selected = possibleTargets.get(pos);
+		if (selected.rarity == 5 || selected.rarity == 4) {
+			amount = 1;
+		} else if (selected.rarity == 3) {
+			oddsNext = 0.2;
+		} else if (selected.rarity == 2) {
+			oddsNext = 0.5;
+		} else {
+			oddsNext = 0.9;
+		}
+		
+		while (rand.nextDouble() < oddsNext) {
+			amount *= 2;
+			if (amount >= 64) {
+				amount = 64;
+				break;
+			}
+		}
+		if (amount > selected.max)
+			amount = selected.max;
+		
+		//System.out.println(selected.item + " | " + selected.rarity + " > amount: " + amount + " (" + selected.max + ")");
+		
+		//Save this to the database
+		try {
+			PreparedStatement pstmt = null;
+			
+			//Set or update the title
+			pstmt = conn.prepareStatement("" +
+				"INSERT INTO grindatron__cycles (date, cycle, label, target, amount) " +
+				"VALUES (?, ?, ?, ?, ?) "
+			);
+			pstmt.setString(1, date.toString());
+			pstmt.setInt(2, cycle);
+			pstmt.setString(3, selected.label);
+			pstmt.setString(4, selected.item);
+			pstmt.setInt(5, amount);
+				
+			@SuppressWarnings("unused")
+			int res = pstmt.executeUpdate();
+			
+		} catch (SQLException ex) {
+			// handle any errors
+			System.out.println("Query: " + query);
+			System.out.println("SQLException: " + ex.getMessage());
+			System.out.println("SQLState: " + ex.getSQLState());
+			System.out.println("VendorError: " + ex.getErrorCode());
+		}
+		
+		Target target = new Target(date, cycle, selected.label, selected.item, amount);
+		return target;
 	}
 	
 	
