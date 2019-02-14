@@ -20,12 +20,12 @@ public class Targets {
 		boolean match = false;
 		Target target = IOGrinder.db.getCycleTarget();
 		
+		//System.out.println("-----------");
 		
 		for (ItemStack stackLoop : content) {
 			if (stackLoop != null) {
-				stackLoop.getType().name();
 				
-				System.out.println("Material: " + stackLoop.getType().name() + " x" + stackLoop.getAmount());
+				//System.out.println("Material: " + stackLoop.getType().name() + " x" + stackLoop.getAmount());
 				
 				stack = stackLoop;
 				
