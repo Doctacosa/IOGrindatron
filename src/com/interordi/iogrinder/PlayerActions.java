@@ -1,7 +1,6 @@
 package com.interordi.iogrinder;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -50,6 +49,7 @@ public class PlayerActions implements Listener {
 		Inventory inv = event.getInventory();
 	 
 		if (inv.getType() == InventoryType.ENDER_CHEST) {
+			@SuppressWarnings("unused")
 			ItemStack item = null;
 			
 			if (event.getRawSlot() < inv.getSize() || event.isRightClick()) {
@@ -59,18 +59,14 @@ public class PlayerActions implements Listener {
 			}
 			
 			//Someone is moving an item in the enderchest, run checks
-			if (item != null && item.getType() != Material.AIR) {
-				//System.out.println("Material: " + item.getType().name() + " x" + item.getAmount());
-				
-				//Do it on the next tick so that the item actually drops
-				Bukkit.getScheduler().runTaskLater(IOGrinder.instance, new Runnable() {
-					@Override
-					public void run() {
-						Player p = ((Player)event.getWhoClicked());
-						Targets.checkDrop(p, inv);
-					}
-				}, 1L);
-			}
+			//Do it on the next tick so that the item actually drops
+			Bukkit.getScheduler().runTaskLater(IOGrinder.instance, new Runnable() {
+				@Override
+				public void run() {
+					Player p = ((Player)event.getWhoClicked());
+					Targets.checkDrop(p, inv);
+				}
+			}, 1L);
 		}
 	}
 }
