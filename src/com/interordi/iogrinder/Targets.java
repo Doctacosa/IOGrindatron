@@ -25,14 +25,13 @@ public class Targets {
 			if (stackLoop != null) {
 				stackLoop.getType().name();
 				
-				System.out.println("Material: " + stackLoop.getType().name() + " (" + stackLoop.getDurability() + ") x" + stackLoop.getAmount());
+				System.out.println("Material: " + stackLoop.getType().name() + " x" + stackLoop.getAmount());
 				
 				stack = stackLoop;
 				
 				//Check if the current stack matches the item we want
 				if (stack != null &&
 					stack.getType().name().toLowerCase().equals(target.item.toLowerCase()) &&
-					(target.durability == -1 || target.durability == stack.getDurability()) &&
 					stack.getAmount() >= target.amount
 					) {
 					match = true;

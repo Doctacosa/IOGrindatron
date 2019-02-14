@@ -188,7 +188,7 @@ public class PlayerWatcher {
 			objective.unregister();
 			objective = null;
 			
-			objective = board.registerNewObjective("score", "dummy");
+			objective = board.registerNewObjective("score", "dummy", "Score");
 			board.clearSlot(DisplaySlot.SIDEBAR);
 			objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 			objective.setDisplayName("Players");
