@@ -1,6 +1,7 @@
 name: IOGrinder
 main: com.interordi.iogrinder.IOGrinder
 version: 1.0
+api-version: 1.13
 
 commands:
   target:
