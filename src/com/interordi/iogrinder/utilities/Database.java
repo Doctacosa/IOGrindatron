@@ -199,7 +199,7 @@ public class Database {
 			
 			//Get the player's data
 			PreparedStatement pstmt = conn.prepareStatement("" +
-				"SELECT label, target, durability, amount " + 
+				"SELECT label, target, amount " + 
 				"FROM grindatron__cycles " +
 				"WHERE date = ? " +
 				"  AND cycle = ? "
@@ -210,7 +210,7 @@ public class Database {
 			ResultSet rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				target = new Target(date, cycle, rs.getString("label"), rs.getString("target"), rs.getInt("durability"), rs.getInt("amount"));
+				target = new Target(date, cycle, rs.getString("label"), rs.getString("target"), rs.getInt("amount"));
 			}
 			rs.close();
 			
@@ -224,7 +224,7 @@ public class Database {
 
 		//TODO: Better fallback
 		if (target == null)
-			target = new Target(date, cycle, "a torch", "torch", -1, 1);
+			target = new Target(date, cycle, "a torch", "torch", 1);
 
 		return target;
 	}
