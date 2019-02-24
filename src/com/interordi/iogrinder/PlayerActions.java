@@ -1,6 +1,7 @@
 package com.interordi.iogrinder;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,6 +11,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -68,5 +70,17 @@ public class PlayerActions implements Listener {
 				}
 			}, 1L);
 		}
+	}
+	
+	
+	@EventHandler
+	public void onPlayerItemConsume(PlayerItemConsumeEvent event) {
+		//Don't allow milk buckets to be consumed when no energy left (fixes temp removal of debuffs)
+		if (event.getItem().getType() != Material.MILK_BUCKET)
+			return;
+		
+		double energy = Players.getPlayerWatcher(event.getPlayer()).getEnergy();
+		if (energy <= 0.0)
+			event.setCancelled(true);
 	}
 }
