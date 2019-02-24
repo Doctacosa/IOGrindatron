@@ -23,6 +23,7 @@ import com.interordi.iogrinder.utilities.ActionBar;
 public class PlayerWatcher {
 	
 	private final static double maxEnergy = 4000.0;
+	private double playerMaxEnergy = maxEnergy;
 	Player player;
 	Location position;
 	double energy = maxEnergy;
@@ -37,11 +38,11 @@ public class PlayerWatcher {
 	
 	
 	public PlayerWatcher(Player player) {
-		this(player, maxEnergy, null, -1, 0, false);
+		this(player, maxEnergy, null, -1, 0, false, 0);
 	}
 	
 	
-	public PlayerWatcher(Player player, double energy, LocalDate date, int cycle, int score, boolean currentDone) {
+	public PlayerWatcher(Player player, double energy, LocalDate date, int cycle, int score, boolean currentDone, int nbDays) {
 		this.player = player;
 		this.energy = energy;
 		this.lastDate = date;
@@ -49,21 +50,26 @@ public class PlayerWatcher {
 		this.score = score;
 		this.currentDone = currentDone;
 		
+		//Give a bonus on consecutive days, up to 25%
+		playerMaxEnergy = nbDays * 200.0;
+		if (playerMaxEnergy > maxEnergy * 1.25)
+			playerMaxEnergy = maxEnergy * 1.25;
+		
 		bars = new HashMap< String, BossBar >();
 	}
 	
 	
 	public void login() {
 		
-		if (energy > maxEnergy)
-			energy = maxEnergy;
+		if (energy > playerMaxEnergy)
+			energy = playerMaxEnergy;
 		else if (energy < 0.0)
 			energy = 0.0;
 		
 		//Add the energy level bar
 		BossBar bossBar = Bukkit.createBossBar("Energy", BarColor.BLUE, BarStyle.SEGMENTED_10 /* .SOLID */);
 		bossBar.addPlayer(player);
-		bossBar.setProgress(energy / maxEnergy);
+		bossBar.setProgress(energy / playerMaxEnergy);
 		bars.put("energy", bossBar);
 		
 		//Add the period indicator bar
@@ -117,8 +123,8 @@ public class PlayerWatcher {
 		@SuppressWarnings("unused")
 		double oldEnergy = energy;
 		energy += amount;
-		if (energy > maxEnergy) {
-			energy = maxEnergy;
+		if (energy > playerMaxEnergy) {
+			energy = playerMaxEnergy;
 		}
 		updateEnergy();
 	}
@@ -139,13 +145,13 @@ public class PlayerWatcher {
 	
 	public void fillEnergy() {
 		double oldEnergy = energy;
-		energy = maxEnergy;
+		energy = playerMaxEnergy;
 		
 		player.removePotionEffect(PotionEffectType.SLOW);
 		player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
 		player.removePotionEffect(PotionEffectType.WEAKNESS);
 		
-		if (oldEnergy < maxEnergy) {
+		if (oldEnergy < playerMaxEnergy) {
 			ActionBar.toPlayer("&aEnergy restored!", player);
 		}
 		updateEnergy();
@@ -158,7 +164,7 @@ public class PlayerWatcher {
 		if (bar == null)
 			return;
 		
-		double progress = energy / maxEnergy;
+		double progress = energy / playerMaxEnergy;
 		if (progress < 0)	progress = 0;
 		if (progress > 1)	progress = 1;
 		

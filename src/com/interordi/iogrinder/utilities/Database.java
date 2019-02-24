@@ -125,7 +125,8 @@ public class Database {
 					LocalDate.parse(rs.getString("last_date")),
 					rs.getInt("last_cycle"),
 					rs.getInt("score"),
-					rs.getInt("current_done") == 1
+					rs.getInt("current_done") == 1,
+					nbDays
 				);
 			}
 			
