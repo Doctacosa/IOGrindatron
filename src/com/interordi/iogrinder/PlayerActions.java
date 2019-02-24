@@ -25,7 +25,11 @@ public class PlayerActions implements Listener {
 	
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent e) {
-		Players.getPlayerWatcher(e.getPlayer()).subEnergy(0.17);
+		//Don't allow enderchests to be placed
+		if (e.getBlock().getType() == Material.ENDER_CHEST)
+			e.setCancelled(true);
+		else
+			Players.getPlayerWatcher(e.getPlayer()).subEnergy(0.17);
 	}
 	
 
