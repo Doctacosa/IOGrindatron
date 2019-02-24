@@ -11,6 +11,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerFishEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -81,6 +82,16 @@ public class PlayerActions implements Listener {
 		
 		double energy = Players.getPlayerWatcher(event.getPlayer()).getEnergy();
 		if (energy <= 0.0)
+			event.setCancelled(true);
+	}
+	
+	
+	@EventHandler
+	public void onPlayerFishEvent(PlayerFishEvent event) {
+		double energy = Players.getPlayerWatcher(event.getPlayer()).getEnergy();
+		if (energy > 0.0)
+			Players.getPlayerWatcher(event.getPlayer()).subEnergy(1.0);
+		else
 			event.setCancelled(true);
 	}
 }
