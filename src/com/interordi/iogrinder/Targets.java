@@ -21,6 +21,7 @@ public class Targets {
 		Target target = IOGrinder.db.getCycleTarget();
 		
 		//System.out.println("-----------");
+		//System.out.println("Target: " + target.item.toLowerCase() + " x" + target.amount);
 		
 		for (ItemStack stackLoop : content) {
 			if (stackLoop != null) {
