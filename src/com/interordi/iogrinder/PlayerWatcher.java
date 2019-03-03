@@ -51,7 +51,7 @@ public class PlayerWatcher {
 		this.currentDone = currentDone;
 		
 		//Give a bonus on consecutive days, up to 25%
-		playerMaxEnergy = nbDays * 200.0;
+		playerMaxEnergy = maxEnergy + nbDays * 200.0;
 		if (playerMaxEnergy > maxEnergy * 1.25)
 			playerMaxEnergy = maxEnergy * 1.25;
 		
