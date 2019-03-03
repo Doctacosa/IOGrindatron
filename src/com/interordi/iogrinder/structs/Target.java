@@ -20,5 +20,7 @@ public class Target {
 		
 		if (this.label.isEmpty())
 			this.label = item.replace('_', ' ');
+		
+		this.label = this.amount + " x " + this.label;
 	}
 }
