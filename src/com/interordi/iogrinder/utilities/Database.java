@@ -271,7 +271,7 @@ public class Database {
 			pstmt = conn.prepareStatement("" +
 				"SELECT item, rarity, max, label " + 
 				"FROM grindatron__possible_targets " +
-				"WHERE max != -1 " +
+				"WHERE max > 0 " +
 				"  AND rarity <= ? "
 			);
 			pstmt.setInt(1, nbDays);
