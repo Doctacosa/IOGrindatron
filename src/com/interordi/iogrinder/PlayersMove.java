@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
 import com.interordi.iogrinder.utilities.ActionBar;
@@ -51,5 +52,12 @@ public class PlayersMove implements Runnable, Listener {
 	@EventHandler
 	public void onTeleport(PlayerTeleportEvent e) {
 		Players.setPosition(e.getPlayer(), e.getTo());
+	}
+	
+	
+	//Avoid a double penalty for the death AND the respawn afterwards
+	@EventHandler
+	public void onPlayerRespawn(PlayerRespawnEvent e) {
+		Players.setPosition(e.getPlayer(), e.getRespawnLocation());
 	}
 }
