@@ -269,7 +269,7 @@ public class Database {
 			
 			//Get the list of possible targets
 			pstmt = conn.prepareStatement("" +
-				"SELECT item, rarity, max, label " + 
+				"SELECT item, rarity, max, odds, label " + 
 				"FROM grindatron__possible_targets " +
 				"WHERE max > 0 " +
 				"  AND rarity <= ? "
@@ -280,7 +280,7 @@ public class Database {
 			
 			int i = 0;
 			while (rs.next()) {
-				possibleTargets.put(i, new PossibleTarget(rs.getString("item"), rs.getInt("rarity"), rs.getInt("max"), rs.getString("label")));
+				possibleTargets.put(i, new PossibleTarget(rs.getString("item"), rs.getInt("rarity"), rs.getInt("max"), rs.getFloat("odds"), rs.getString("label")));
 				i += 1;
 			}
 			rs.close();
@@ -299,9 +299,17 @@ public class Database {
 		PossibleTarget selected = null;
 		Random rand = new Random();
 		int pos = rand.nextInt(possibleTargets.size());
+		selected = possibleTargets.get(pos);
+
+		//Roll again if the odds aren't in our favor
+		while (rand.nextFloat() > selected.odds) {
+			pos = rand.nextInt(possibleTargets.size());
+			selected = possibleTargets.get(pos);
+		}
+		
+		//Determine the amount
 		amount = 1;
 		double oddsAmount = 0;
-		selected = possibleTargets.get(pos);
 		if (selected.rarity == 5 || selected.rarity == 4) {
 			amount = 1;
 		} else if (selected.rarity == 3) {
