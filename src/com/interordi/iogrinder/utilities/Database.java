@@ -248,15 +248,35 @@ public class Database {
 		Map< Integer, PossibleTarget > possibleTargets = new HashMap< Integer, PossibleTarget >();
 		
 		try {
+			
 			conn = DriverManager.getConnection(database);
 			
+			
+			//Get the amount of days since this cycle started
+			int nbDays = 1;
 			PreparedStatement pstmt = conn.prepareStatement("" +
-				"SELECT item, rarity, max, label " + 
-				"FROM grindatron__possible_targets " +
-				"WHERE max != -1 "
+				"SELECT DATEDIFF(CURDATE(), MIN(date)) AS days "+
+				"FROM grindatron__cycles "
 			);
 			
 			ResultSet rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				nbDays = rs.getInt("days");
+			}
+			rs.close();
+			
+			
+			//Get the list of possible targets
+			pstmt = conn.prepareStatement("" +
+				"SELECT item, rarity, max, label " + 
+				"FROM grindatron__possible_targets " +
+				"WHERE max != -1 " +
+				"  AND rarity <= ? "
+			);
+			pstmt.setInt(1, nbDays);
+			
+			rs = pstmt.executeQuery();
 			
 			int i = 0;
 			while (rs.next()) {
