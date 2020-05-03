@@ -300,19 +300,19 @@ public class Database {
 		Random rand = new Random();
 		int pos = rand.nextInt(possibleTargets.size());
 		amount = 1;
-		double oddsNext = 0;
+		double oddsAmount = 0;
 		selected = possibleTargets.get(pos);
 		if (selected.rarity == 5 || selected.rarity == 4) {
 			amount = 1;
 		} else if (selected.rarity == 3) {
-			oddsNext = 0.2;
+			oddsAmount = 0.2;
 		} else if (selected.rarity == 2) {
-			oddsNext = 0.5;
+			oddsAmount = 0.5;
 		} else {
-			oddsNext = 0.9;
+			oddsAmount = 0.9;
 		}
 		
-		while (rand.nextDouble() < oddsNext) {
+		while (rand.nextDouble() < oddsAmount) {
 			amount *= 2;
 			if (amount >= 64) {
 				amount = 64;
