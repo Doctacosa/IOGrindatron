@@ -265,6 +265,9 @@ public class Database {
 				nbDays = rs.getInt("days");
 			}
 			rs.close();
+
+			if (nbDays < 1)
+				nbDays = 1;
 			
 			
 			//Get the list of possible targets
