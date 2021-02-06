@@ -45,7 +45,7 @@ public class Title {
 	
 	
 	private static String format(String message) {
-		return message.replace("&", "ง");
+		return message.replace("&", "ยง");
 	}
 
 }
