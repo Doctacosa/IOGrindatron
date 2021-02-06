@@ -141,10 +141,8 @@ public class Database {
 			
 		} catch (SQLException ex) {
 			// handle any errors
-			System.out.println("Query: " + query);
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
+			System.out.println("Query error for " + plugin.getName() + ": " + query);
+			System.out.println("Error " + ex.getErrorCode() + ": " + ex.getMessage());
 		}
 
 		return watcher;
@@ -184,10 +182,8 @@ public class Database {
 			
 		} catch (SQLException ex) {
 			// handle any errors
-			System.out.println("Query: " + query);
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
+			System.out.println("Query error for " + plugin.getName() + ": " + query);
+			System.out.println("Error " + ex.getErrorCode() + ": " + ex.getMessage());
 		}
 	}
 	
@@ -221,10 +217,8 @@ public class Database {
 			
 		} catch (SQLException ex) {
 			// handle any errors
-			System.out.println("Query: " + query);
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
+			System.out.println("Query error for " + plugin.getName() + ": " + query);
+			System.out.println("Error " + ex.getErrorCode() + ": " + ex.getMessage());
 		}
 
 		//If no target has been defined, generate a new one
@@ -290,10 +284,8 @@ public class Database {
 			
 		} catch (SQLException ex) {
 			// handle any errors
-			System.out.println("Query: " + query);
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
+			System.out.println("Query error for " + plugin.getName() + ": " + query);
+			System.out.println("Error " + ex.getErrorCode() + ": " + ex.getMessage());
 		}
 		
 		
@@ -355,10 +347,8 @@ public class Database {
 			
 		} catch (SQLException ex) {
 			// handle any errors
-			System.out.println("Query: " + query);
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
+			System.out.println("Query error for " + plugin.getName() + ": " + query);
+			System.out.println("Error " + ex.getErrorCode() + ": " + ex.getMessage());
 		}
 		
 		Target target = new Target(date, cycle, selected.label, selected.item, amount);
@@ -393,10 +383,8 @@ public class Database {
 			
 		} catch (SQLException ex) {
 			// handle any errors
-			System.out.println("Query: " + query);
-			System.out.println("SQLException: " + ex.getMessage());
-			System.out.println("SQLState: " + ex.getSQLState());
-			System.out.println("VendorError: " + ex.getErrorCode());
+			System.out.println("Query error for " + plugin.getName() + ": " + query);
+			System.out.println("Error " + ex.getErrorCode() + ": " + ex.getMessage());
 		}
 	}
 }
