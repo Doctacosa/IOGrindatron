@@ -53,9 +53,6 @@ public class Targets {
 				
 				Title.toPlayer("", "Target complete!", 1, p);
 				pw.completeTarget();
-				
-				//TODO: Actual reward when warranted
-				//Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "minecraft:give " + p.getDisplayName() + " skull 1 3 {display:{Name:\"Bright Star\"},SkullOwner:{Id:\"d98b77c6-ebde-4582-b1e0-f1e94e220d44\",Properties:{textures:[{Value:\"eyJ0ZXh0dXJlcyI6eyJTS0lOIjp7InVybCI6Imh0dHA6Ly90ZXh0dXJlcy5taW5lY3JhZnQubmV0L3RleHR1cmUvNWZkZmI1ZWE5M2VlOWQ3ZTYyMTc0ZjI1MmM3M2M0NjU5NDliYjVhMzFhOTJjMzkyN2M4ZDhmYTQ4YjZjIn19fQ==\"}]}}}");
 			} else {
 				ActionBar.toPlayer("You've already completed this cycle's target.", p);
 			}
