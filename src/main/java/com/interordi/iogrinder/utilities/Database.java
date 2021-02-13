@@ -12,6 +12,7 @@ import java.util.Random;
 
 import org.bukkit.entity.Player;
 
+import com.interordi.iogrinder.IOGrinder;
 import com.interordi.iogrinder.PeriodManager;
 import com.interordi.iogrinder.PlayerWatcher;
 import com.interordi.iogrinder.structs.Target;
@@ -19,23 +20,15 @@ import com.interordi.iogrinder.structs.PossibleTarget;
 
 public class Database {
 	
-	//MySQL server information
-	private String dbServer = "";
-	private String dbUsername = "";
-	private String dbPassword = "";
-	private String dbBase = "";
-	
+	private IOGrinder plugin = null;
 	private String database = "";
 	
 	
-	public Database(String server, String username, String password, String base) {
+	public Database(IOGrinder plugin, String dbHost, int dbPort, String dbUsername, String dbPassword, String dbBase) {
+
+		this.plugin = plugin;
 		
-		this.dbServer = server;
-		this.dbUsername = username;
-		this.dbPassword = password;
-		this.dbBase = base;
-		
-		database = "jdbc:mysql://" + dbServer + "/" + dbBase + "?user=" + dbUsername + "&password=" + dbPassword + "&useSSL=false";
+		database = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbBase + "?user=" + dbUsername + "&password=" + dbPassword + "&useSSL=false";
 	}
 	
 	

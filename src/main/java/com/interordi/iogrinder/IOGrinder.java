@@ -35,11 +35,16 @@ public class IOGrinder extends JavaPlugin implements Runnable {
 		//Always ensure we've got a copy of the config in place (does not overwrite existing)
 		this.saveDefaultConfig();
 		
-		String dbServer = this.getConfig().getString("database.server");
+		String dbHost = this.getConfig().getString("database.server");
+		int dbPort = this.getConfig().getInt("database.port", 3306);
 		String dbUsername = this.getConfig().getString("database.username");
 		String dbPassword = this.getConfig().getString("database.password");
 		String dbBase = this.getConfig().getString("database.base");
-		db = new Database(dbServer, dbUsername, dbPassword, dbBase);
+
+		if (dbHost == null)
+			dbHost = this.getConfig().getString("database.server");
+
+		db = new Database(this, dbHost, dbPort, dbUsername, dbPassword, dbBase);
 		
 		getLogger().info("IOGrinder enabled");
 		

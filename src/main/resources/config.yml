@@ -1,5 +1,6 @@
 database:
-  server: localhost
+  host: localhost
+  port: 3306
+  base: minecraft
   username: root
   password: 
-  base: minecraft
