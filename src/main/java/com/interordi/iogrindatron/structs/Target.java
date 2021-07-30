@@ -1,4 +1,4 @@
-package com.interordi.iogrinder.structs;
+package com.interordi.iogrindatron.structs;
 
 import java.time.LocalDate;
 

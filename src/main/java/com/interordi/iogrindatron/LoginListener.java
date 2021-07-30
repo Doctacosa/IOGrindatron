@@ -1,4 +1,4 @@
-package com.interordi.iogrinder;
+package com.interordi.iogrindatron;
 
 import org.bukkit.event.player.*;
 import org.bukkit.event.EventHandler;
@@ -8,9 +8,9 @@ import org.bukkit.event.Listener;
 public class LoginListener implements Listener {
 	
 	@SuppressWarnings("unused")
-	private IOGrinder plugin;
+	private IOGrindatron plugin;
 	
-	public LoginListener(IOGrinder plugin) {
+	public LoginListener(IOGrindatron plugin) {
 		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}

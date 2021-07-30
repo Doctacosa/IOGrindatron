@@ -1,20 +1,20 @@
-package com.interordi.iogrinder;
+package com.interordi.iogrindatron;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import com.interordi.iogrindatron.structs.Target;
+import com.interordi.iogrindatron.utilities.ActionBar;
+import com.interordi.iogrindatron.utilities.Chat;
+import com.interordi.iogrindatron.utilities.Title;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-
-import com.interordi.iogrinder.structs.Target;
-import com.interordi.iogrinder.utilities.ActionBar;
-import com.interordi.iogrinder.utilities.Chat;
-import com.interordi.iogrinder.utilities.Title;
 
 
 public class Players {
@@ -29,7 +29,7 @@ public class Players {
 		
 		//First login for this server run, add an entry
 		if (!players.containsKey(uuid)) {
-			instance = IOGrinder.db.loadPlayer(player);
+			instance = IOGrindatron.db.loadPlayer(player);
 			players.put(uuid, instance);
 			instance.login();
 			
@@ -42,13 +42,13 @@ public class Players {
 				instance.login();
 			} else {
 				//Renew an instance for this player and keep it
-				instance = IOGrinder.db.loadPlayer(player);
+				instance = IOGrindatron.db.loadPlayer(player);
 				players.put(uuid, instance);
 				instance.login();
 			}
 		}
 		
-		Target target = IOGrinder.db.getCycleTarget();
+		Target target = IOGrindatron.db.getCycleTarget();
 		ActionBar.toPlayer("Current target: &l" + target.label, player, 10);
 		
 		//Give a connection bonus if one was earned
@@ -91,7 +91,7 @@ public class Players {
 		PlayerWatcher instance = players.get(player.getUniqueId());
 		if (instance != null) {
 			instance.logout();
-			IOGrinder.db.savePlayer(instance, LocalDate.now(), PeriodManager.getPeriod());
+			IOGrindatron.db.savePlayer(instance, LocalDate.now(), PeriodManager.getPeriod());
 			players.put(player.getUniqueId(), null);
 		}
 	}

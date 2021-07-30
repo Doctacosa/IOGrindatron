@@ -1,5 +1,5 @@
-name: IOGrinder
-main: com.interordi.iogrinder.IOGrinder
+name: IOGrindatron
+main: com.interordi.iogrindatron.IOGrindatron
 version: 1.0
 api-version: 1.13
 

@@ -1,4 +1,4 @@
-# IOGrinder
+# IOGrindatron
 Grindatron minigame in Minecraft, as featured on the [Creeper's Lab](https://www.creeperslab.net/).
 
 Every four hours, a target is generated: for example, 1 x elytra, 2 x snowball, 8 x stone, etc. The players must then gather these materials and place them in an enderchest placed somewhere, ideally at the spawn point of the world. Successfully providing the set item gets them a point!

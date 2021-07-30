@@ -1,4 +1,4 @@
-package com.interordi.iogrinder;
+package com.interordi.iogrindatron;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -18,7 +18,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerActions implements Listener {
 
-	public PlayerActions(IOGrinder plugin) {
+	public PlayerActions(IOGrindatron plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
@@ -67,7 +67,7 @@ public class PlayerActions implements Listener {
 			
 			//Someone is moving an item in the enderchest, run checks
 			//Do it on the next tick so that the item actually drops
-			Bukkit.getScheduler().runTaskLater(IOGrinder.instance, new Runnable() {
+			Bukkit.getScheduler().runTaskLater(IOGrindatron.instance, new Runnable() {
 				@Override
 				public void run() {
 					Player p = ((Player)event.getWhoClicked());

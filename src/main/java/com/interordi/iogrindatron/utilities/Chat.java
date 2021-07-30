@@ -1,9 +1,9 @@
-package com.interordi.iogrinder.utilities;
+package com.interordi.iogrindatron.utilities;
+
+import com.interordi.iogrindatron.IOGrindatron;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-
-import com.interordi.iogrinder.IOGrinder;
 
 public class Chat {
 	
@@ -12,10 +12,10 @@ public class Chat {
 		
 		final String formattedMessage = format(message);
 		
-		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrinder.instance, new Runnable() {
+		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.instance, new Runnable() {
 			@Override
 			public void run() {
-				for (Player player : IOGrinder.instance.getServer().getOnlinePlayers()) {
+				for (Player player : IOGrindatron.instance.getServer().getOnlinePlayers()) {
 					if (player == null)
 						return;
 					
@@ -30,7 +30,7 @@ public class Chat {
 		
 		final String formattedMessage = format(message);
 		
-		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrinder.instance, new Runnable() {
+		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.instance, new Runnable() {
 			@Override
 			public void run() {
 				if (player == null)

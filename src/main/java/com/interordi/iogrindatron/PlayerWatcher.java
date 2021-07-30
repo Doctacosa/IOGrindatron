@@ -1,8 +1,10 @@
-package com.interordi.iogrinder;
+package com.interordi.iogrindatron;
 
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.interordi.iogrindatron.utilities.ActionBar;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -16,8 +18,6 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
 import org.bukkit.scoreboard.Scoreboard;
-
-import com.interordi.iogrinder.utilities.ActionBar;
 
 
 public class PlayerWatcher {

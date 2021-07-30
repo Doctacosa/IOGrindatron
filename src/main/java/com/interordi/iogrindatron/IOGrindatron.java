@@ -1,4 +1,8 @@
-package com.interordi.iogrinder;
+package com.interordi.iogrindatron;
+
+import com.interordi.iogrindatron.structs.Target;
+import com.interordi.iogrindatron.utilities.ActionBar;
+import com.interordi.iogrindatron.utilities.Database;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -9,15 +13,10 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
-import com.interordi.iogrinder.PeriodManager;
-import com.interordi.iogrinder.structs.Target;
-import com.interordi.iogrinder.utilities.ActionBar;
-import com.interordi.iogrinder.utilities.Database;
 
+public class IOGrindatron extends JavaPlugin implements Runnable {
 
-public class IOGrinder extends JavaPlugin implements Runnable {
-
-	public static IOGrinder instance;
+	public static IOGrindatron instance;
 	public PeriodManager periods;
 	private PlayersMove playersMove;
 	@SuppressWarnings("unused")
@@ -46,7 +45,7 @@ public class IOGrinder extends JavaPlugin implements Runnable {
 
 		db = new Database(this, dbHost, dbPort, dbUsername, dbPassword, dbBase);
 		
-		getLogger().info("IOGrinder enabled");
+		getLogger().info("IOGrindatron enabled");
 		
 		//Run initial required tasks once
 		getServer().getScheduler().scheduleSyncDelayedTask(this, this);
@@ -60,7 +59,7 @@ public class IOGrinder extends JavaPlugin implements Runnable {
 	
 	
 	public void onDisable() {
-		getLogger().info("IOGrinder disabled");
+		getLogger().info("IOGrindatron disabled");
 	}
 
 
@@ -68,7 +67,7 @@ public class IOGrinder extends JavaPlugin implements Runnable {
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if (cmd.getName().equalsIgnoreCase("target")) {
 			
-			Target target = IOGrinder.db.getCycleTarget();
+			Target target = IOGrindatron.db.getCycleTarget();
 			
 			//Fancy display to players, basic for others like the console
 			if (sender instanceof Player) {

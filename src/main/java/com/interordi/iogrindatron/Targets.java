@@ -1,12 +1,12 @@
-package com.interordi.iogrinder;
+package com.interordi.iogrindatron;
+
+import com.interordi.iogrindatron.structs.Target;
+import com.interordi.iogrindatron.utilities.ActionBar;
+import com.interordi.iogrindatron.utilities.Title;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
-import com.interordi.iogrinder.structs.Target;
-import com.interordi.iogrinder.utilities.ActionBar;
-import com.interordi.iogrinder.utilities.Title;
 
 public class Targets {
 	
@@ -18,7 +18,7 @@ public class Targets {
 		
 		ItemStack stack = null;
 		boolean match = false;
-		Target target = IOGrinder.db.getCycleTarget();
+		Target target = IOGrindatron.db.getCycleTarget();
 		
 		//System.out.println("-----------");
 		//System.out.println("Target: " + target.item.toLowerCase() + " x" + target.amount);
@@ -49,7 +49,7 @@ public class Targets {
 				p.updateInventory();
 				
 				//Store the results in the DB
-				IOGrinder.db.savePlayerTarget(p, target);
+				IOGrindatron.db.savePlayerTarget(p, target);
 				
 				Title.toPlayer("", "Target complete!", 1, p);
 				pw.completeTarget();

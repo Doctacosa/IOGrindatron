@@ -1,11 +1,11 @@
-package com.interordi.iogrinder.utilities;
+package com.interordi.iogrindatron.utilities;
 
 import net.md_5.bungee.api.chat.TextComponent;
 
+import com.interordi.iogrindatron.IOGrindatron;
+
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
-
-import com.interordi.iogrinder.IOGrinder;
 
 public class ActionBar {
 	
@@ -14,10 +14,10 @@ public class ActionBar {
 		
 		final String formattedMessage = format(message);
 		
-		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrinder.instance, new Runnable() {
+		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.instance, new Runnable() {
 			@Override
 			public void run() {
-				for (Player player : IOGrinder.instance.getServer().getOnlinePlayers()) {
+				for (Player player : IOGrindatron.instance.getServer().getOnlinePlayers()) {
 					if (player == null)
 						return;
 					
@@ -32,7 +32,7 @@ public class ActionBar {
 		
 		final String formattedMessage = format(message);
 		
-		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrinder.instance, new Runnable() {
+		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.instance, new Runnable() {
 			@Override
 			public void run() {
 				if (player == null)

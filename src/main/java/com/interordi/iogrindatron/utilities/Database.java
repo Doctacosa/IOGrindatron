@@ -1,4 +1,4 @@
-package com.interordi.iogrinder.utilities;
+package com.interordi.iogrindatron.utilities;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,21 +10,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import org.bukkit.entity.Player;
+import com.interordi.iogrindatron.IOGrindatron;
+import com.interordi.iogrindatron.PeriodManager;
+import com.interordi.iogrindatron.PlayerWatcher;
+import com.interordi.iogrindatron.structs.PossibleTarget;
+import com.interordi.iogrindatron.structs.Target;
 
-import com.interordi.iogrinder.IOGrinder;
-import com.interordi.iogrinder.PeriodManager;
-import com.interordi.iogrinder.PlayerWatcher;
-import com.interordi.iogrinder.structs.Target;
-import com.interordi.iogrinder.structs.PossibleTarget;
+import org.bukkit.entity.Player;
 
 public class Database {
 	
-	private IOGrinder plugin = null;
+	private IOGrindatron plugin = null;
 	private String database = "";
 	
 	
-	public Database(IOGrinder plugin, String dbHost, int dbPort, String dbUsername, String dbPassword, String dbBase) {
+	public Database(IOGrindatron plugin, String dbHost, int dbPort, String dbUsername, String dbPassword, String dbBase) {
 
 		this.plugin = plugin;
 		

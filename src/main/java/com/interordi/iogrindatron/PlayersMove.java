@@ -1,4 +1,6 @@
-package com.interordi.iogrinder;
+package com.interordi.iogrindatron;
+
+import com.interordi.iogrindatron.utilities.ActionBar;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -9,13 +11,11 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 
-import com.interordi.iogrinder.utilities.ActionBar;
-
 @SuppressWarnings("unused")
 public class PlayersMove implements Runnable, Listener {
 
 	
-	public PlayersMove(IOGrinder plugin) {
+	public PlayersMove(IOGrindatron plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
