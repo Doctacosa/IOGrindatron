@@ -4,17 +4,13 @@ import com.interordi.iogrindatron.structs.Target;
 import com.interordi.iogrindatron.utilities.ActionBar;
 import com.interordi.iogrindatron.utilities.Database;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
 
 
-public class IOGrindatron extends JavaPlugin implements Runnable {
+public class IOGrindatron extends JavaPlugin {
 
 	public static IOGrindatron instance;
 	public PeriodManager periods;
@@ -48,7 +44,9 @@ public class IOGrindatron extends JavaPlugin implements Runnable {
 		getLogger().info("IOGrindatron enabled");
 		
 		//Run initial required tasks once
-		getServer().getScheduler().scheduleSyncDelayedTask(this, this);
+		getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
+			PlayerWatcher.initScore();
+		});
 		
 		//Once the server is running, check for new notifications every minute
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, periods, 30*20L, 60*20L);
@@ -82,23 +80,5 @@ public class IOGrindatron extends JavaPlugin implements Runnable {
 		}
 		
 		return false;
-	}
-	
-	
-	@Override
-	public void run() {
-		//Add the basic scoreboard when the server is loaded
-		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-		//Scoreboard board = this.plugin.getServer().getScoreboardManager().getMainScoreboard();
-		//board.resetScores("score");
-		Objective objective = board.getObjective("score");
-		
-		if (objective != null)
-			objective.unregister();
-		
-		objective = board.registerNewObjective("score", "dummy", "Score");
-		board.clearSlot(DisplaySlot.SIDEBAR);
-		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-		objective.setDisplayName("Players");
 	}
 }

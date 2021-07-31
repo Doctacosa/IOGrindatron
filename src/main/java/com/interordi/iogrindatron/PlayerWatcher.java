@@ -170,6 +170,21 @@ public class PlayerWatcher {
 		
 		bar.setProgress(progress);
 	}
+
+
+	//Initialize the scoreboard
+	public static void initScore() {
+		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+		Objective objective = board.getObjective("score");
+		
+		if (objective != null)
+			objective.unregister();
+		
+		objective = board.registerNewObjective("score", "dummy", "Score");
+		board.clearSlot(DisplaySlot.SIDEBAR);
+		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+		objective.setDisplayName("Players");
+	}
 	
 	
 	//Update a player's score on the global display
