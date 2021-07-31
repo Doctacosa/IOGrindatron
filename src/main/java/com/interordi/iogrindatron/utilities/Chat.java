@@ -15,7 +15,7 @@ public class Chat {
 		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.instance, new Runnable() {
 			@Override
 			public void run() {
-				for (Player player : IOGrindatron.instance.getServer().getOnlinePlayers()) {
+				for (Player player : Bukkit.getServer().getOnlinePlayers()) {
 					if (player == null)
 						return;
 					

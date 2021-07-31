@@ -18,7 +18,10 @@ import org.bukkit.inventory.ItemStack;
 
 public class PlayerActions implements Listener {
 
+	IOGrindatron plugin;
+
 	public PlayerActions(IOGrindatron plugin) {
+		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 	
@@ -67,7 +70,7 @@ public class PlayerActions implements Listener {
 			
 			//Someone is moving an item in the enderchest, run checks
 			//Do it on the next tick so that the item actually drops
-			Bukkit.getScheduler().runTaskLater(IOGrindatron.instance, new Runnable() {
+			Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 				@Override
 				public void run() {
 					Player p = ((Player)event.getWhoClicked());
