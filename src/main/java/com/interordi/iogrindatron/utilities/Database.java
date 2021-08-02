@@ -240,7 +240,7 @@ public class Database {
 			
 			
 			//Get the amount of days since this cycle started
-			int nbDays = 1;
+			int maxDifficulty = 1;
 			PreparedStatement pstmt = conn.prepareStatement("" +
 				"SELECT DATEDIFF(CURDATE(), MIN(date)) AS days "+
 				"FROM grindatron__cycles "
@@ -249,12 +249,15 @@ public class Database {
 			ResultSet rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
-				nbDays = rs.getInt("days");
+				maxDifficulty = rs.getInt("days");
 			}
 			rs.close();
 
-			if (nbDays < 1)
-				nbDays = 1;
+			//Cut by two, max difficulty only possible after 10 days
+			maxDifficulty /= 2;
+
+			if (maxDifficulty < 1)
+				maxDifficulty = 1;
 			
 			
 			//Get the list of possible targets
@@ -264,7 +267,7 @@ public class Database {
 				"WHERE max > 0 " +
 				"  AND rarity <= ? "
 			);
-			pstmt.setInt(1, nbDays);
+			pstmt.setInt(1, maxDifficulty);
 			
 			rs = pstmt.executeQuery();
 			
