@@ -12,7 +12,7 @@ public class Chat {
 		
 		final String formattedMessage = format(message);
 		
-		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.instance, new Runnable() {
+		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.getInstance(), new Runnable() {
 			@Override
 			public void run() {
 				for (Player player : Bukkit.getServer().getOnlinePlayers()) {
@@ -30,7 +30,7 @@ public class Chat {
 		
 		final String formattedMessage = format(message);
 		
-		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.instance, new Runnable() {
+		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.getInstance(), new Runnable() {
 			@Override
 			public void run() {
 				if (player == null)

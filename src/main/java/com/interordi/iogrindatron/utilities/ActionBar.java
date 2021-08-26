@@ -14,10 +14,10 @@ public class ActionBar {
 		
 		final String formattedMessage = format(message);
 		
-		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.instance, new Runnable() {
+		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.getInstance(), new Runnable() {
 			@Override
 			public void run() {
-				for (Player player : IOGrindatron.instance.getServer().getOnlinePlayers()) {
+				for (Player player : IOGrindatron.getInstance().getServer().getOnlinePlayers()) {
 					if (player == null)
 						return;
 					
@@ -32,7 +32,7 @@ public class ActionBar {
 		
 		final String formattedMessage = format(message);
 		
-		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.instance, new Runnable() {
+		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.getInstance(), new Runnable() {
 			@Override
 			public void run() {
 				if (player == null)

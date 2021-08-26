@@ -12,7 +12,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class IOGrindatron extends JavaPlugin {
 
-	public static IOGrindatron instance;
+	private static IOGrindatron instance;
 	public PeriodManager periods;
 	private PlayersMove playersMove;
 	@SuppressWarnings("unused")
@@ -21,8 +21,8 @@ public class IOGrindatron extends JavaPlugin {
 	
 	
 	public void onEnable() {
-		new LoginListener(this);
 		instance = this;
+		new LoginListener(this);
 		periods = new PeriodManager();
 		playersMove = new PlayersMove(this);
 		playerAction = new PlayerActions(this);
@@ -80,5 +80,11 @@ public class IOGrindatron extends JavaPlugin {
 		}
 		
 		return false;
+	}
+
+
+	//Get the plugin instance
+	public static IOGrindatron getInstance() {
+		return instance;
 	}
 }

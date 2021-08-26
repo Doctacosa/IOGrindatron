@@ -13,7 +13,7 @@ public class Title {
 		final String formattedTitle = format(title);
 		final String formattedSubtitle = format(subtitle);
 		
-		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.instance, new Runnable() {
+		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.getInstance(), new Runnable() {
 			@Override
 			public void run() {
 				for (Player player : Bukkit.getServer().getOnlinePlayers()) {
@@ -32,7 +32,7 @@ public class Title {
 		final String formattedTitle = format(title);
 		final String formattedSubtitle = format(subtitle);
 		
-		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.instance, new Runnable() {
+		Bukkit.getScheduler().runTaskLaterAsynchronously(IOGrindatron.getInstance(), new Runnable() {
 			@Override
 			public void run() {
 				if (player == null)
