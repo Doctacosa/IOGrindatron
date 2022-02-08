@@ -1,5 +1,9 @@
 package com.interordi.iogrindatron.utilities;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -104,6 +108,48 @@ public class Database {
 			;
 			pstmt = conn.prepareStatement(query);
 			pstmt.executeUpdate();
+
+
+			//Load the list of possible targets if missing
+			pstmt = conn.prepareStatement("" +
+				"SELECT COUNT(*) AS amount " +
+				"FROM grindatron__possible_targets "
+			);
+			ResultSet rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				if (rs.getInt("amount") == 0) {
+					//Read the SQL query from the file
+					FileReader input = null;
+					try {
+						input = new FileReader("targets.sql");
+					} catch (FileNotFoundException e) {
+						System.out.println("targets.sql not found!");
+						return false;
+					}
+					
+					try {
+						BufferedReader buffer = new BufferedReader(input);
+						String line = buffer.readLine();
+						query = "";
+						while (line != null) {
+							query += line;
+							line = buffer.readLine();
+						}
+						buffer.close();
+
+						//If everything checked out, insert the targets
+						pstmt = conn.prepareStatement(query);
+						pstmt.executeUpdate();
+							
+					} catch (IOException e) {
+						plugin.getLogger().info("Failed to read targets.sql.");
+						return false;
+					}
+				}
+			}
+			rs.close();
+
 			
 		} catch (SQLException ex) {
 			System.err.println("Query: " + query);
