@@ -40,6 +40,7 @@ public class IOGrindatron extends JavaPlugin {
 			dbHost = this.getConfig().getString("database.server");
 
 		db = new Database(this, dbHost, dbPort, dbUsername, dbPassword, dbBase);
+		db.init();
 		
 		getLogger().info("IOGrindatron enabled");
 		

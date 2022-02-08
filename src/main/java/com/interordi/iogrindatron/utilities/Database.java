@@ -32,6 +32,92 @@ public class Database {
 	}
 	
 	
+	//Initialize the database
+	public boolean init() {
+
+		//Create or update the required database table
+		//A failure indicates that the database wasn't configured properly
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		String query = "";
+		
+		try {
+			conn = DriverManager.getConnection(database);
+			
+			query = "" +
+				"CREATE TABLE IF NOT EXISTS `grindatron__cycles` ( " +
+				"  `date` date NOT NULL, " +
+				"  `cycle` tinyint(2) NOT NULL, " +
+				"  `label` varchar(30) NOT NULL, " +
+				"  `target` varchar(40) NOT NULL, " +
+				"  `amount` int(11) NOT NULL, " +
+				"  PRIMARY KEY (`date`,`cycle`) " +
+				") ENGINE=InnoDB DEFAULT CHARSET=utf8; "
+			;
+			pstmt = conn.prepareStatement(query);
+			pstmt.executeUpdate();
+			
+			query = "" +
+				"CREATE TABLE IF NOT EXISTS `grindatron__cycles_players` ( " +
+				"  `date` date NOT NULL, " +
+				"  `cycle` tinyint(2) NOT NULL, " +
+				"  `uuid` varchar(36) NOT NULL, " +
+				"  `amount` int(11) NOT NULL, " +
+				"  `done` tinyint(1) NOT NULL, " +
+				"  PRIMARY KEY (`date`,`cycle`,`uuid`) " +
+				") ENGINE=InnoDB DEFAULT CHARSET=utf8; "
+			;
+			pstmt = conn.prepareStatement(query);
+			pstmt.executeUpdate();
+			
+			query = "" +
+				"CREATE TABLE IF NOT EXISTS `grindatron__players` ( " +
+				"  `uuid` varchar(36) NOT NULL, " +
+				"  `energy` float NOT NULL, " +
+				"  `last_date` date NOT NULL, " +
+				"  `last_cycle` tinyint(2) NOT NULL, " +
+				"  PRIMARY KEY (`uuid`) " +
+				") ENGINE=InnoDB DEFAULT CHARSET=utf8; "
+			;
+			pstmt = conn.prepareStatement(query);
+			pstmt.executeUpdate();
+			
+			query = "" +
+				"CREATE TABLE IF NOT EXISTS `grindatron__players_daily` ( " +
+				"  `uuid` varchar(36) NOT NULL, " +
+				"  `date` date NOT NULL, " +
+				"  PRIMARY KEY (`uuid`,`date`) " +
+				") ENGINE=InnoDB DEFAULT CHARSET=utf8; "
+			;
+			pstmt = conn.prepareStatement(query);
+			pstmt.executeUpdate();
+			
+			query = "" +
+				"CREATE TABLE IF NOT EXISTS `grindatron__possible_targets` ( " +
+				"  `item` varchar(50) NOT NULL, " +
+				"  `rarity` tinyint(4) NOT NULL DEFAULT 1, " +
+				"  `max` tinyint(4) NOT NULL DEFAULT -1, " +
+				"  `odds` float NOT NULL DEFAULT 1, " +
+				"  `label` varchar(50) NOT NULL, " +
+				"  PRIMARY KEY (`item`) " +
+				") ENGINE=InnoDB DEFAULT CHARSET=utf8; "
+			;
+			pstmt = conn.prepareStatement(query);
+			pstmt.executeUpdate();
+			
+		} catch (SQLException ex) {
+			System.err.println("Query: " + query);
+			System.err.println("SQLException: " + ex.getMessage());
+			System.err.println("SQLState: " + ex.getSQLState());
+			System.err.println("VendorError: " + ex.getErrorCode());
+			return false;
+		}
+
+
+		return true;
+	}
+	
+	
 	//Load a player's information
 	public PlayerWatcher loadPlayer(Player player) {
 		Connection conn = null;
