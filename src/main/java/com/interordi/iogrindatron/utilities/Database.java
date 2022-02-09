@@ -1,9 +1,9 @@
 package com.interordi.iogrindatron.utilities;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -119,24 +119,18 @@ public class Database {
 			
 			while (rs.next()) {
 				if (rs.getInt("amount") == 0) {
+
 					//Read the SQL query from the file
-					FileReader input = null;
 					try {
-						input = new FileReader("targets.sql");
-					} catch (FileNotFoundException e) {
-						System.out.println("targets.sql not found!");
-						return false;
-					}
-					
-					try {
-						BufferedReader buffer = new BufferedReader(input);
-						String line = buffer.readLine();
-						query = "";
-						while (line != null) {
-							query += line;
-							line = buffer.readLine();
+						StringBuilder builder = new StringBuilder();
+						InputStream stream = getClass().getResourceAsStream("/targets.sql");
+						BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+
+						String line;
+						while ((line = reader.readLine()) != null) {
+							builder.append(line + System.lineSeparator());
 						}
-						buffer.close();
+						query = builder.toString();
 
 						//If everything checked out, insert the targets
 						pstmt = conn.prepareStatement(query);
