@@ -20,6 +20,7 @@ import com.interordi.iogrindatron.PlayerWatcher;
 import com.interordi.iogrindatron.structs.PossibleTarget;
 import com.interordi.iogrindatron.structs.Target;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class Database {
@@ -137,7 +138,7 @@ public class Database {
 						pstmt.executeUpdate();
 							
 					} catch (IOException e) {
-						plugin.getLogger().info("Failed to read targets.sql.");
+						Bukkit.getLogger().info("Failed to read targets.sql.");
 						return false;
 					}
 				}
@@ -146,10 +147,10 @@ public class Database {
 
 			
 		} catch (SQLException ex) {
-			System.err.println("Query: " + query);
-			System.err.println("SQLException: " + ex.getMessage());
-			System.err.println("SQLState: " + ex.getSQLState());
-			System.err.println("VendorError: " + ex.getErrorCode());
+			Bukkit.getLogger().severe("Query: " + query);
+			Bukkit.getLogger().severe("SQLException: " + ex.getMessage());
+			Bukkit.getLogger().severe("SQLState: " + ex.getSQLState());
+			Bukkit.getLogger().severe("VendorError: " + ex.getErrorCode());
 			return false;
 		}
 
@@ -251,7 +252,7 @@ public class Database {
 			
 			if (watcher == null) {
 				watcher = new PlayerWatcher(player);
-				System.out.println("Not FOUND");
+				Bukkit.getLogger().warning("Not FOUND");
 			}
 			
 			if (giveConnectionBonus && nbDays > 0)
@@ -260,8 +261,8 @@ public class Database {
 			
 		} catch (SQLException ex) {
 			// handle any errors
-			System.out.println("Query error for " + plugin.getName() + ": " + query);
-			System.out.println("Error " + ex.getErrorCode() + ": " + ex.getMessage());
+			Bukkit.getLogger().warning("Query error for " + plugin.getName() + ": " + query);
+			Bukkit.getLogger().warning("Error " + ex.getErrorCode() + ": " + ex.getMessage());
 		}
 
 		return watcher;
@@ -301,8 +302,8 @@ public class Database {
 			
 		} catch (SQLException ex) {
 			// handle any errors
-			System.out.println("Query error for " + plugin.getName() + ": " + query);
-			System.out.println("Error " + ex.getErrorCode() + ": " + ex.getMessage());
+			Bukkit.getLogger().warning("Query error for " + plugin.getName() + ": " + query);
+			Bukkit.getLogger().warning("Error " + ex.getErrorCode() + ": " + ex.getMessage());
 		}
 	}
 	
@@ -336,8 +337,8 @@ public class Database {
 			
 		} catch (SQLException ex) {
 			// handle any errors
-			System.out.println("Query error for " + plugin.getName() + ": " + query);
-			System.out.println("Error " + ex.getErrorCode() + ": " + ex.getMessage());
+			Bukkit.getLogger().warning("Query error for " + plugin.getName() + ": " + query);
+			Bukkit.getLogger().warning("Error " + ex.getErrorCode() + ": " + ex.getMessage());
 		}
 
 		//If no target has been defined, generate a new one
@@ -406,8 +407,8 @@ public class Database {
 			
 		} catch (SQLException ex) {
 			// handle any errors
-			System.out.println("Query error for " + plugin.getName() + ": " + query);
-			System.out.println("Error " + ex.getErrorCode() + ": " + ex.getMessage());
+			Bukkit.getLogger().warning("Query error for " + plugin.getName() + ": " + query);
+			Bukkit.getLogger().warning("Error " + ex.getErrorCode() + ": " + ex.getMessage());
 		}
 		
 		
@@ -447,7 +448,7 @@ public class Database {
 		if (amount > selected.max)
 			amount = selected.max;
 		
-		//System.out.println(selected.item + " | " + selected.rarity + " > amount: " + amount + " (" + selected.max + ")");
+		//Bukkit.getLogger().info(selected.item + " | " + selected.rarity + " > amount: " + amount + " (" + selected.max + ")");
 		
 		//Save this to the database
 		try {
@@ -469,8 +470,8 @@ public class Database {
 			
 		} catch (SQLException ex) {
 			// handle any errors
-			System.out.println("Query error for " + plugin.getName() + ": " + query);
-			System.out.println("Error " + ex.getErrorCode() + ": " + ex.getMessage());
+			Bukkit.getLogger().warning("Query error for " + plugin.getName() + ": " + query);
+			Bukkit.getLogger().warning("Error " + ex.getErrorCode() + ": " + ex.getMessage());
 		}
 		
 		Target target = new Target(date, cycle, selected.label, selected.item, amount);
@@ -505,8 +506,8 @@ public class Database {
 			
 		} catch (SQLException ex) {
 			// handle any errors
-			System.out.println("Query error for " + plugin.getName() + ": " + query);
-			System.out.println("Error " + ex.getErrorCode() + ": " + ex.getMessage());
+			Bukkit.getLogger().warning("Query error for " + plugin.getName() + ": " + query);
+			Bukkit.getLogger().warning("Error " + ex.getErrorCode() + ": " + ex.getMessage());
 		}
 	}
 }

@@ -20,13 +20,13 @@ public class Targets {
 		boolean match = false;
 		Target target = IOGrindatron.db.getCycleTarget();
 		
-		//System.out.println("-----------");
-		//System.out.println("Target: " + target.item.toLowerCase() + " x" + target.amount);
+		//Bukkit.getLogger().info("-----------");
+		//Bukkit.getLogger().info("Target: " + target.item.toLowerCase() + " x" + target.amount);
 		
 		for (ItemStack stackLoop : content) {
 			if (stackLoop != null) {
 				
-				//System.out.println("Material: " + stackLoop.getType().name() + " x" + stackLoop.getAmount());
+				//Bukkit.getLogger().info("Material: " + stackLoop.getType().name() + " x" + stackLoop.getAmount());
 				
 				stack = stackLoop;
 				
