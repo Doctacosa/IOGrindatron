@@ -38,7 +38,11 @@ public class PlayerActions implements Listener {
 
 	@EventHandler
 	public void onBlockBreak(BlockBreakEvent e) {
-		Players.getPlayerWatcher(e.getPlayer()).subEnergy(0.5);
+		//Don't allow enderchests to be broken
+		if (e.getBlock().getType() == Material.ENDER_CHEST)
+			e.setCancelled(true);
+		else
+			Players.getPlayerWatcher(e.getPlayer()).subEnergy(0.5);
 	}
 	
 
