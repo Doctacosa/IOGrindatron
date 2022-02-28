@@ -256,7 +256,7 @@ public class Database {
 			}
 			
 			if (giveConnectionBonus && nbDays > 0)
-				watcher.giveConnectionBonus(nbDays);
+				watcher.setConnectionBonus(nbDays);
 			
 			
 		} catch (SQLException ex) {

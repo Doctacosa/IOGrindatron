@@ -243,7 +243,7 @@ public class PlayerWatcher {
 
 
 	//Get / set the amount of consecutive days played
-	public void giveConnectionBonus(int nbDays) {
+	public void setConnectionBonus(int nbDays) {
 		this.consecutiveDays = nbDays;
 	}
 
