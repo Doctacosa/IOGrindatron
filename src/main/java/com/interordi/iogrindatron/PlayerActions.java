@@ -61,7 +61,7 @@ public class PlayerActions implements Listener {
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
 		Inventory inv = event.getInventory();
-	 
+
 		if (inv.getType() == InventoryType.ENDER_CHEST) {
 			@SuppressWarnings("unused")
 			ItemStack item = null;

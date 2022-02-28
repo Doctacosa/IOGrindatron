@@ -53,6 +53,7 @@ public class Targets {
 				
 				Title.toPlayer("", "Target complete!", 1, p);
 				pw.completeTarget();
+				pw.updatePeriodProgress(PeriodManager.getPeriodProgress());
 			} else {
 				ActionBar.toPlayer("You've already completed this cycle's target.", p);
 			}

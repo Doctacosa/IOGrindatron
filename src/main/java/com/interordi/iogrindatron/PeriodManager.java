@@ -3,7 +3,6 @@ package com.interordi.iogrindatron;
 import java.time.LocalDateTime;
 
 import com.interordi.iogrindatron.structs.Target;
-import com.interordi.iogrindatron.utilities.ActionBar;
 import com.interordi.iogrindatron.utilities.Title;
 
 
@@ -13,6 +12,7 @@ public class PeriodManager implements Runnable {
 	private int currentPeriod = -1;
 	
 	final public static int periodDuration = 4;
+	private static Target currentTarget = null;
 	
 	
 	public PeriodManager() {
@@ -43,6 +43,14 @@ public class PeriodManager implements Runnable {
 	}
 
 
+	//Get the current target
+	public static Target getCurrentTarget(boolean force) {
+		if (force || currentTarget == null)
+			currentTarget = IOGrindatron.db.getCycleTarget();
+		return currentTarget;
+	}
+
+
 	@Override
 	public void run() {
 		//Check for period changes every minute
@@ -52,11 +60,10 @@ public class PeriodManager implements Runnable {
 		if (nowPeriod != currentPeriod) {
 			currentPeriod = nowPeriod;
 			
-			Target target = IOGrindatron.db.getCycleTarget();
+			currentTarget = getCurrentTarget(true);
 			
 			//Reset stats, it's a new period!
 			Title.toAll("", "Now changing periods - stats reset!", 0);
-			ActionBar.toAll("New target: &l" + target.label);
 			Players.resetCycle();
 		}
 		

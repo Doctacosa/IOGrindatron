@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.interordi.iogrindatron.structs.Target;
 import com.interordi.iogrindatron.utilities.ActionBar;
 
 import org.bukkit.Bukkit;
@@ -73,7 +74,7 @@ public class PlayerWatcher {
 		bars.put("energy", bossBar);
 		
 		//Add the period indicator bar
-		bossBar = Bukkit.createBossBar("Period progress", BarColor.YELLOW, BarStyle.SOLID);
+		bossBar = Bukkit.createBossBar(getPeriodBarLabel(), BarColor.YELLOW, BarStyle.SOLID);
 		bossBar.addPlayer(player);
 		bossBar.setProgress(PeriodManager.getPeriodProgress());
 		bars.put("period", bossBar);
@@ -94,6 +95,21 @@ public class PlayerWatcher {
 		}
 		removeScore();
 	}
+
+
+	//Generate the display for the current target
+	public String getPeriodBarLabel() {
+		Target target = PeriodManager.getCurrentTarget(false);
+
+		String label = "Period target: ";
+
+		if (currentDone)
+			label += "" + target.label + " §l[DONE!]";
+		else
+			label += "§l" + target.label;
+
+		return label;
+	}
 	
 	
 	//Update the progress of the current period
@@ -106,6 +122,7 @@ public class PlayerWatcher {
 		if (progress > 1)	progress = 1;
 		
 		bar.setProgress(progress);
+		bar.setTitle(getPeriodBarLabel());
 	}
 	
 	
