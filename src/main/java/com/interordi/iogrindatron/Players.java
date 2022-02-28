@@ -73,6 +73,13 @@ public class Players {
 					inv.addItem(new ItemStack(Material.DIAMOND));
 					itemDesc = "1 diamond";
 					break;
+				case 7:
+				case 14:
+				case 21:
+				case 28:
+					inv.addItem(new ItemStack(Material.NETHERITE_INGOT));
+					itemDesc = "1 netherite ingot";
+					break;
 				default:
 					inv.addItem(new ItemStack(Material.DIAMOND_ORE));
 					itemDesc = "1 diamond ore";
