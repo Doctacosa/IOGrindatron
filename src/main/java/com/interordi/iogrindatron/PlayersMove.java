@@ -37,6 +37,8 @@ public class PlayersMove implements Runnable, Listener {
 					//ActionBar.toPlayer("Movement: " + movement, player);
 					if (player.isInsideVehicle())
 						Players.getPlayerWatcher(player).subEnergy(movement / 2);
+					else if (player.isGliding())
+						Players.getPlayerWatcher(player).subEnergy(movement / 4);
 					else
 						Players.getPlayerWatcher(player).subEnergy(movement);
 				}
