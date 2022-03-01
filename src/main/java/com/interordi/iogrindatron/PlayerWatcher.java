@@ -104,7 +104,7 @@ public class PlayerWatcher {
 		String label = "Period target: ";
 
 		if (currentDone)
-			label += "" + target.label + " §l[DONE!]";
+			label += "§7" + target.label + " §a§l[DONE!]";
 		else
 			label += "§l" + target.label;
 
