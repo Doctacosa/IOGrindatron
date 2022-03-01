@@ -392,7 +392,13 @@ public class Database {
 				"SELECT item, rarity, max, odds, label " + 
 				"FROM grindatron__possible_targets " +
 				"WHERE max > 0 " +
-				"  AND rarity <= ? "
+				"  AND rarity <= ? " +
+				"  AND item NOT IN " +
+				"  ( " +
+				"    SELECT target " +
+				"    FROM grindatron__cycles " +
+				"    WHERE date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) " +
+				"  ) "
 			);
 			pstmt.setInt(1, maxDifficulty);
 			
