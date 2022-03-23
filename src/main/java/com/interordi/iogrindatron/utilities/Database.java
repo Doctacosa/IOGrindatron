@@ -173,8 +173,7 @@ public class Database {
 				"SELECT date " +
 				"FROM grindatron__players_daily " +
 				"WHERE uuid = ? " +
-				"ORDER BY date DESC " +
-				"LIMIT 5"
+				"ORDER BY date DESC "
 			);
 			pstmt.setString(1, player.getUniqueId().toString());
 			ResultSet rs = pstmt.executeQuery();
