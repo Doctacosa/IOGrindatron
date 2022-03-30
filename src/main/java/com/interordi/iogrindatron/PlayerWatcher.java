@@ -197,10 +197,9 @@ public class PlayerWatcher {
 		if (objective != null)
 			objective.unregister();
 		
-		objective = board.registerNewObjective("score", "dummy", "Score");
+		objective = board.registerNewObjective("score", "dummy", "Targets Done");
 		board.clearSlot(DisplaySlot.SIDEBAR);
 		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-		objective.setDisplayName("Players");
 	}
 	
 	
@@ -226,10 +225,9 @@ public class PlayerWatcher {
 			objective.unregister();
 			objective = null;
 			
-			objective = board.registerNewObjective("score", "dummy", "Score");
+			objective = board.registerNewObjective("score", "dummy", "Targets Done");
 			board.clearSlot(DisplaySlot.SIDEBAR);
 			objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-			objective.setDisplayName("Players");
 			
 			scores.remove(player.getDisplayName());
 			
