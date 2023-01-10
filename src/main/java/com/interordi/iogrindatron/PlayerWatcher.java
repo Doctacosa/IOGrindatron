@@ -25,6 +25,7 @@ public class PlayerWatcher {
 	
 	private final static double maxEnergy = 4000.0;
 	private double playerMaxEnergy = maxEnergy;
+	IOGrindatron plugin;
 	Player player;
 	Location position;
 	double energy = maxEnergy;
@@ -38,12 +39,13 @@ public class PlayerWatcher {
 	static Map< String, Integer > scores = new HashMap< String, Integer>();
 	
 	
-	public PlayerWatcher(Player player) {
-		this(player, maxEnergy, null, -1, 0, false, 0);
+	public PlayerWatcher(IOGrindatron plugin, Player player) {
+		this(plugin, player, maxEnergy, null, -1, 0, false, 0);
 	}
 	
 	
-	public PlayerWatcher(Player player, double energy, LocalDate date, int cycle, int score, boolean currentDone, int nbDays) {
+	public PlayerWatcher(IOGrindatron plugin, Player player, double energy, LocalDate date, int cycle, int score, boolean currentDone, int nbDays) {
+		this.plugin = plugin;
 		this.player = player;
 		this.energy = energy;
 		this.lastDate = date;
@@ -83,7 +85,7 @@ public class PlayerWatcher {
 		
 		//Only refill if the player was last active in a previous cycle
 		if (lastDate != null && lastCycle != -1 &&
-			(!lastDate.equals(LocalDate.now()) || lastCycle != PeriodManager.getPeriod())) {
+			(!lastDate.equals(LocalDate.now()) || lastCycle != plugin.periods.getCurrentPeriod())) {
 			fillEnergy();
 		}
 	}

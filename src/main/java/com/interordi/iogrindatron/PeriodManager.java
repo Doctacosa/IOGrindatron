@@ -20,7 +20,13 @@ public class PeriodManager implements Runnable {
 	}
 	
 	
-	//Get the number of the current period
+	//Get the number of the active period
+	public int getCurrentPeriod() {
+		return currentPeriod;
+	}
+	
+	
+	//Get which cycle should be per the clock
 	public static int getPeriod() {
 		
 		LocalDateTime date = LocalDateTime.now();

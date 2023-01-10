@@ -239,6 +239,7 @@ public class Database {
 			
 			while (rs.next()) {
 				watcher = new PlayerWatcher(
+					plugin,
 					player,
 					rs.getDouble("energy"),
 					LocalDate.parse(rs.getString("last_date")),
@@ -250,7 +251,7 @@ public class Database {
 			}
 			
 			if (watcher == null) {
-				watcher = new PlayerWatcher(player);
+				watcher = new PlayerWatcher(plugin, player);
 				Bukkit.getLogger().warning("Not FOUND");
 			}
 			
