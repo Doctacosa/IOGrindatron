@@ -26,6 +26,7 @@ public class IOGrindatron extends JavaPlugin {
 		periods = new PeriodManager();
 		playersMove = new PlayersMove(this);
 		playerAction = new PlayerActions(this);
+		Players.setPeriodManager(periods);
 		
 		//Always ensure we've got a copy of the config in place (does not overwrite existing)
 		this.saveDefaultConfig();

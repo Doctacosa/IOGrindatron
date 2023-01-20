@@ -233,7 +233,7 @@ public class Database {
 			pstmt.setString(1, player.getUniqueId().toString());
 			pstmt.setString(2, player.getUniqueId().toString());
 			pstmt.setString(3, LocalDate.now().toString());
-			pstmt.setInt(4, PeriodManager.getPeriod());
+			pstmt.setInt(4, plugin.periods.getCurrentPeriod());
 			pstmt.setString(5, player.getUniqueId().toString());
 			rs = pstmt.executeQuery();
 			

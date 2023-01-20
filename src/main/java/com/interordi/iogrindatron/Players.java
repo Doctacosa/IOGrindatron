@@ -20,7 +20,13 @@ import org.bukkit.inventory.PlayerInventory;
 public class Players {
 
 	static private Map< UUID , PlayerWatcher > players = new HashMap< UUID, PlayerWatcher >();
-	
+	static private PeriodManager periods = null;
+
+
+	public static void setPeriodManager(PeriodManager periods) {
+		Players.periods = periods;
+	}
+
 	
 	//Keep a player watcher entry 
 	public static void register(Player player) {
@@ -98,7 +104,7 @@ public class Players {
 		PlayerWatcher instance = players.get(player.getUniqueId());
 		if (instance != null) {
 			instance.logout();
-			IOGrindatron.db.savePlayer(instance, LocalDate.now(), PeriodManager.getPeriod());
+			IOGrindatron.db.savePlayer(instance, LocalDate.now(), periods.getCurrentPeriod());
 			players.put(player.getUniqueId(), null);
 		}
 	}
