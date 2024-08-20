@@ -3,6 +3,7 @@ package com.interordi.iogrindatron;
 import com.interordi.iogrindatron.structs.Target;
 import com.interordi.iogrindatron.utilities.ActionBar;
 import com.interordi.iogrindatron.utilities.Database;
+import com.interordi.iogrindatron.utilities.Scores;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,10 +19,14 @@ public class IOGrindatron extends JavaPlugin {
 	@SuppressWarnings("unused")
 	private PlayerActions playerAction;
 	public static Database db = null;
-	
+	Scores thisScores;
+
 	
 	public void onEnable() {
 		instance = this;
+		
+		thisScores = new Scores("Targets Done");
+
 		new LoginListener(this);
 		periods = new PeriodManager();
 		playersMove = new PlayersMove(this);
@@ -82,6 +87,11 @@ public class IOGrindatron extends JavaPlugin {
 		}
 		
 		return false;
+	}
+
+
+	public Scores getScores() {
+		return thisScores;
 	}
 
 

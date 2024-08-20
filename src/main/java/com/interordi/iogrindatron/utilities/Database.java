@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 import com.interordi.iogrindatron.IOGrindatron;
 import com.interordi.iogrindatron.PeriodManager;
@@ -156,6 +157,41 @@ public class Database {
 
 
 		return true;
+	}
+	
+	
+	//Load a player's information
+	public Map< UUID, Integer > loadScores() {
+		Connection conn = null;
+		String query = "";
+		Map< UUID, Integer > scores = new HashMap< UUID, Integer>();
+		
+		try {
+			conn = DriverManager.getConnection(database);
+			
+			//Get the scores of all players
+			PreparedStatement pstmt = conn.prepareStatement("" +
+				"SELECT uuid, COUNT(*) AS amount" +
+				"FROM grindatron__cycles_players " +
+				"WHERE done = 1 "
+			);
+			
+			ResultSet rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				scores.put(
+					UUID.fromString(rs.getString("uuid")),
+					rs.getInt("amount")
+				);
+			}
+			
+		} catch (SQLException ex) {
+			// handle any errors
+			Bukkit.getLogger().warning("Query error for " + plugin.getName() + ": " + query);
+			Bukkit.getLogger().warning("Error " + ex.getErrorCode() + ": " + ex.getMessage());
+		}
+
+		return scores;
 	}
 	
 	

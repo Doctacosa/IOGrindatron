@@ -3,6 +3,7 @@ package com.interordi.iogrindatron;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import com.interordi.iogrindatron.structs.Target;
 import com.interordi.iogrindatron.utilities.ActionBar;
@@ -15,17 +16,13 @@ import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
 
 
 public class PlayerWatcher {
 	
 	private final static double maxEnergy = 4000.0;
 	private double playerMaxEnergy = maxEnergy;
-	IOGrindatron plugin;
+	private static IOGrindatron plugin;
 	Player player;
 	Location position;
 	double energy = maxEnergy;
@@ -36,7 +33,7 @@ public class PlayerWatcher {
 	int consecutiveDays = 0;
 	
 	Map< String, BossBar > bars;
-	static Map< String, Integer > scores = new HashMap< String, Integer>();
+	static Map< UUID, Integer > scores = new HashMap< UUID, Integer>();
 	
 	
 	public PlayerWatcher(IOGrindatron plugin, Player player) {
@@ -45,7 +42,7 @@ public class PlayerWatcher {
 	
 	
 	public PlayerWatcher(IOGrindatron plugin, Player player, double energy, LocalDate date, int cycle, int score, boolean currentDone, int nbDays) {
-		this.plugin = plugin;
+		PlayerWatcher.plugin = plugin;
 		this.player = player;
 		this.energy = energy;
 		this.lastDate = date;
@@ -193,51 +190,20 @@ public class PlayerWatcher {
 
 	//Initialize the scoreboard
 	public static void initScore() {
-		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-		Objective objective = board.getObjective("score");
-		
-		if (objective != null)
-			objective.unregister();
-		
-		objective = board.registerNewObjective("score", "dummy", "Targets Done");
-		board.clearSlot(DisplaySlot.SIDEBAR);
-		objective.setDisplaySlot(DisplaySlot.SIDEBAR);
+		scores = IOGrindatron.db.loadScores();
+		plugin.getScores().loadScores(scores);
 	}
 	
 	
 	//Update a player's score on the global display
 	public void updateScore() {
-		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-		Objective objective = board.getObjective("score");
-		if (objective != null) {
-			Score myScore = objective.getScore(player.getDisplayName());
-			myScore.setScore(this.score);
-			
-			scores.put(player.getDisplayName(), this.score);
-		}
+		plugin.getScores().updateScore(player, this.score);
 	}
 	
 	
 	//Remove a player's score from the display
 	public void removeScore() {
-		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
-		Objective objective = board.getObjective("score");
-		if (objective != null) {
-			//Remove a player then rebuild the scoreboard from the known data
-			objective.unregister();
-			objective = null;
-			
-			objective = board.registerNewObjective("score", "dummy", "Targets Done");
-			board.clearSlot(DisplaySlot.SIDEBAR);
-			objective.setDisplaySlot(DisplaySlot.SIDEBAR);
-			
-			scores.remove(player.getDisplayName());
-			
-			for (String key : scores.keySet()) {
-				Score myScore = objective.getScore(key);
-				myScore.setScore(scores.get(key));
-			}
-		}
+		plugin.getScores().refreshDisplay();
 	}
 	
 	
