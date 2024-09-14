@@ -3,13 +3,16 @@ package com.interordi.iogrindatron;
 import com.interordi.iogrindatron.utilities.ActionBar;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerPortalEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 @SuppressWarnings("unused")
 public class PlayersMove implements Runnable, Listener {
@@ -61,5 +64,24 @@ public class PlayersMove implements Runnable, Listener {
 	@EventHandler
 	public void onPlayerRespawn(PlayerRespawnEvent e) {
 		Players.setPosition(e.getPlayer(), e.getRespawnLocation());
+	}
+	
+	
+	//Avoid a double penalty for the death AND the respawn afterwards
+	@EventHandler
+	public void onPlayerPortalEvent(PlayerPortalEvent e) {
+
+		int targets = Players.getPlayerWatcher(e.getPlayer()).getNbTargets();
+		
+		if (e.getCause() == TeleportCause.NETHER_PORTAL && targets < 10) {
+			e.setCancelled(true);
+			e.getPlayer().sendMessage(ChatColor.RED + "You must have completed at least 10 targets to enter this portal.");
+			return;
+		
+		} else if (e.getCause() == TeleportCause.END_PORTAL && targets < 25) {
+			e.setCancelled(true);
+			e.getPlayer().sendMessage(ChatColor.RED + "You must have completed at least 25 targets to enter this portal.");
+			return;
+		}
 	}
 }

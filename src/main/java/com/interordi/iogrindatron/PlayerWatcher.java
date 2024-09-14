@@ -235,6 +235,12 @@ public class PlayerWatcher {
 	}
 
 
+	//Get the number of targets completed
+	public int getNbTargets() {
+		return this.score;
+	}
+
+
 	//Reset a player's stats after a cycle
 	public void resetCycle() {
 		currentDone = false;
