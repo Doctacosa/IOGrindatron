@@ -113,10 +113,10 @@ public class Database {
 
 
 			//Load the list of possible targets if missing
-			pstmt = conn.prepareStatement("" +
+			query = "" +
 				"SELECT COUNT(*) AS amount " +
-				"FROM grindatron__possible_targets "
-			);
+				"FROM grindatron__possible_targets ";
+			pstmt = conn.prepareStatement(query);
 			ResultSet rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
@@ -170,11 +170,11 @@ public class Database {
 			conn = DriverManager.getConnection(database);
 			
 			//Get the scores of all players
-			PreparedStatement pstmt = conn.prepareStatement("" +
+			query = "" +
 				"SELECT uuid, COUNT(*) AS amount" +
 				"FROM grindatron__cycles_players " +
-				"WHERE done = 1 "
-			);
+				"WHERE done = 1 ";
+			PreparedStatement pstmt = conn.prepareStatement(query);
 			
 			ResultSet rs = pstmt.executeQuery();
 			
@@ -205,12 +205,12 @@ public class Database {
 			conn = DriverManager.getConnection(database);
 			
 			//Get the number of consecutive days with logins in a row BEFORE registering today
-			PreparedStatement pstmt = conn.prepareStatement("" +
+			query = "" +
 				"SELECT date " +
 				"FROM grindatron__players_daily " +
 				"WHERE uuid = ? " +
-				"ORDER BY date DESC "
-			);
+				"ORDER BY date DESC ";
+			PreparedStatement pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, player.getUniqueId().toString());
 			ResultSet rs = pstmt.executeQuery();
 			int nbDays = 0;
@@ -237,16 +237,16 @@ public class Database {
 			
 			
 			//Mark this player's visit for the day
-			pstmt = conn.prepareStatement("" +
+			query = "" +
 				"INSERT IGNORE INTO grindatron__players_daily (uuid, date) " +
-				"VALUES (?, ?)"
-			);
+				"VALUES (?, ?)";
+			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, player.getUniqueId().toString());
 			pstmt.setString(2, LocalDate.now().toString());
 			pstmt.executeUpdate();
 			
 			//Get the player's data
-			pstmt = conn.prepareStatement("" +
+			query = "" +
 				"SELECT energy, last_date, last_cycle, " +
 				"( " +
 				"	SELECT COUNT(*) " +
@@ -263,8 +263,8 @@ public class Database {
 				"	  AND cycle = ? " +
 				" ) AS current_done " +
 				"FROM grindatron__players " +
-				"WHERE uuid = ?"
-			);
+				"WHERE uuid = ?";
+			pstmt = conn.prepareStatement(query);
 			
 			pstmt.setString(1, player.getUniqueId().toString());
 			pstmt.setString(2, player.getUniqueId().toString());
@@ -320,11 +320,11 @@ public class Database {
 			PreparedStatement pstmt = null;
 			
 			//Set or update the title
-			pstmt = conn.prepareStatement("" +
+			query = "" +
 				"INSERT INTO grindatron__players (uuid, energy, last_date, last_cycle) " +
 				"VALUES (?, ?, ?, ?) " +
-				"ON DUPLICATE KEY UPDATE energy = ?, last_date = ?, last_cycle = ? "
-			);
+				"ON DUPLICATE KEY UPDATE energy = ?, last_date = ?, last_cycle = ? ";
+			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, watcher.getPlayer().getUniqueId().toString());
 			pstmt.setDouble(2, watcher.getEnergy());
 			pstmt.setString(3, date.toString());
@@ -355,12 +355,12 @@ public class Database {
 			conn = DriverManager.getConnection(database);
 			
 			//Get the player's data
-			PreparedStatement pstmt = conn.prepareStatement("" +
+			query = "" +
 				"SELECT label, target, amount " + 
 				"FROM grindatron__cycles " +
 				"WHERE date = ? " +
-				"  AND cycle = ? "
-			);
+				"  AND cycle = ? ";
+			PreparedStatement pstmt = conn.prepareStatement(query);
 			
 			pstmt.setString(1, date.toString());
 			pstmt.setInt(2, cycle);
@@ -404,10 +404,10 @@ public class Database {
 			
 			//Get the amount of days since this cycle started
 			int maxDifficulty = 1;
-			PreparedStatement pstmt = conn.prepareStatement("" +
+			query = "" +
 				"SELECT DATEDIFF(CURDATE(), MIN(date)) AS days "+
-				"FROM grindatron__cycles "
-			);
+				"FROM grindatron__cycles ";
+			PreparedStatement pstmt = conn.prepareStatement(query);
 			
 			ResultSet rs = pstmt.executeQuery();
 			
@@ -424,7 +424,7 @@ public class Database {
 			
 			
 			//Get the list of possible targets
-			pstmt = conn.prepareStatement("" +
+			query = "" +
 				"SELECT item, rarity, max, odds, label " + 
 				"FROM grindatron__possible_targets " +
 				"WHERE max > 0 " +
@@ -434,8 +434,8 @@ public class Database {
 				"    SELECT target " +
 				"    FROM grindatron__cycles " +
 				"    WHERE date >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) " +
-				"  ) "
-			);
+				"  ) ";
+			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, maxDifficulty);
 			
 			rs = pstmt.executeQuery();
@@ -497,10 +497,10 @@ public class Database {
 			PreparedStatement pstmt = null;
 			
 			//Set or update the title
-			pstmt = conn.prepareStatement("" +
+			query = "" +
 				"INSERT INTO grindatron__cycles (date, cycle, label, target, amount) " +
-				"VALUES (?, ?, ?, ?, ?) "
-			);
+				"VALUES (?, ?, ?, ?, ?) ";
+			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, date.toString());
 			pstmt.setInt(2, cycle);
 			pstmt.setString(3, selected.label);
@@ -533,10 +533,10 @@ public class Database {
 			PreparedStatement pstmt = null;
 			
 			//Set or update the title
-			pstmt = conn.prepareStatement("" +
+			query = "" +
 				"INSERT IGNORE INTO grindatron__cycles_players (date, cycle, uuid, amount, done) " +
-				"VALUES (?, ?, ?, ?, ?) "
-			);
+				"VALUES (?, ?, ?, ?, ?) ";
+			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, target.date.toString());
 			pstmt.setInt(2, target.cycle);
 			pstmt.setString(3, player.getUniqueId().toString());
