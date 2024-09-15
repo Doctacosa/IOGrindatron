@@ -171,7 +171,7 @@ public class Database {
 			
 			//Get the scores of all players
 			query = "" +
-				"SELECT uuid, COUNT(*) AS amount" +
+				"SELECT uuid, COUNT(*) AS amount " +
 				"FROM grindatron__cycles_players " +
 				"WHERE done = 1 ";
 			PreparedStatement pstmt = conn.prepareStatement(query);
