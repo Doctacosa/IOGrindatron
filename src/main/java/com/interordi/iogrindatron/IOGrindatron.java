@@ -52,7 +52,7 @@ public class IOGrindatron extends JavaPlugin {
 		
 		//Run initial required tasks once
 		getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
-			PlayerWatcher.initScore();
+			PlayerWatcher.initScore(this);
 		});
 		
 		//Once the server is running, check for new notifications every minute

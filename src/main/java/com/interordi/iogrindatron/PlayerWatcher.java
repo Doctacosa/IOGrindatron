@@ -189,7 +189,8 @@ public class PlayerWatcher {
 
 
 	//Initialize the scoreboard
-	public static void initScore() {
+	public static void initScore(IOGrindatron plugin) {
+		PlayerWatcher.plugin = plugin;
 		scores = IOGrindatron.db.loadScores();
 		plugin.getScores().loadScores(scores);
 	}

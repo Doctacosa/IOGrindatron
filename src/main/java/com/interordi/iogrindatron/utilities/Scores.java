@@ -62,7 +62,7 @@ public class Scores {
 		for (UUID uuid : toDisplay) {
 			OfflinePlayer offPlayer = Bukkit.getOfflinePlayer(uuid);
 			String playerName = offPlayer.getName();
-			if (!playerName.isEmpty()) {
+			if (playerName != null && !playerName.isEmpty()) {
 				Score myScore = objective.getScore(playerName);
 				
 				if (!scoresPlayers.containsKey(uuid))
