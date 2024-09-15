@@ -142,7 +142,11 @@ public class Players {
 		return players.get(player.getUniqueId());
 	}
 
-	
+	public static PlayerWatcher getPlayerWatcher(UUID uuid) {
+		return players.get(uuid);
+	}
+
+
 	//Fill everyone's energy on a period reset
 	public static void fillEnergy() {
 		for (Map.Entry< UUID, PlayerWatcher > entry : players.entrySet()) {

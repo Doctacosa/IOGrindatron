@@ -1,17 +1,22 @@
 package com.interordi.iogrindatron;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockDispenseArmorEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerFishEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -60,7 +65,9 @@ public class PlayerActions implements Listener {
 	
 	@EventHandler
 	public void onInventoryClick(InventoryClickEvent event) {
+
 		Inventory inv = event.getInventory();
+		int targets = Players.getPlayerWatcher(event.getWhoClicked().getUniqueId()).getNbTargets();
 
 		if (inv.getType() == InventoryType.ENDER_CHEST) {
 			@SuppressWarnings("unused")
@@ -81,10 +88,83 @@ public class PlayerActions implements Listener {
 					Targets.checkDrop(p, inv);
 				}
 			}, 1L);
+
+		} else if (event.getSlotType() == InventoryType.SlotType.RESULT) {
+			if (event.getCurrentItem().getType().toString().startsWith("NETHERITE_") && targets < 15) {
+				event.setCancelled(true);
+				event.getWhoClicked().sendMessage(ChatColor.RED + "You must have completed at least 15 targets to craft this.");
+				return;
+
+			} else if (event.getCurrentItem().getType().toString().startsWith("DIAMOND_") && targets < 10) {
+				event.setCancelled(true);
+				event.getWhoClicked().sendMessage(ChatColor.RED + "You must have completed at least 10 targets to craft this.");
+				return;
+			}
+
+		} else if (event.getSlotType() == InventoryType.SlotType.ARMOR) {
+			boolean toCancel = checkItemEquip(event.getCursor(), Bukkit.getPlayer(event.getWhoClicked().getUniqueId()));
+			event.setCancelled(toCancel);
 		}
 	}
-	
-	
+
+
+	@EventHandler
+	public void onInventoryDragEvent(InventoryDragEvent event) {
+		Player target = Bukkit.getPlayer(event.getWhoClicked().getUniqueId());
+		if (target == null)
+			return;
+
+		for (int pos : event.getInventorySlots()) {
+			ItemStack item = target.getInventory().getItem(pos);
+			boolean toCancel = checkItemEquip(item, target);
+			if (toCancel)
+				event.setCancelled(toCancel);
+		}
+	}
+
+
+	//Holding in hand and right-clicking armor
+	@EventHandler
+	public void onPlayerInteractEvent(PlayerInteractEvent event) {
+		if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+			boolean toCancel = checkItemEquip(event.getItem(), event.getPlayer());
+			event.setCancelled(toCancel);
+		}
+	}
+
+
+	//For dispensers
+	@EventHandler
+	public void onBlockDispenseArmorEvent(BlockDispenseArmorEvent event) {
+		Player target = Bukkit.getPlayer(event.getTargetEntity().getUniqueId());
+		if (target == null)
+			return;
+
+		boolean toCancel = checkItemEquip(event.getItem(), target);
+		event.setCancelled(toCancel);
+	}
+
+
+	//Check if the player is trying to equip something
+	//Returns true if forbidden
+	public boolean checkItemEquip(ItemStack item, Player player) {
+		if (item == null)
+			return false;
+
+		int targets = Players.getPlayerWatcher(player).getNbTargets();
+
+		if (item.getType().toString().startsWith("NETHERITE_") && targets < 15) {
+			player.sendMessage(ChatColor.RED + "You must have completed at least 15 targets to equip this.");
+			return true;
+		} else if (item.getType().toString().startsWith("DIAMOND_") && targets < 10) {
+			player.sendMessage(ChatColor.RED + "You must have completed at least 10 targets to equip this.");
+			return true;
+		}
+
+		return false;
+	}
+
+
 	@EventHandler
 	public void onPlayerItemConsume(PlayerItemConsumeEvent event) {
 		//Don't allow milk buckets to be consumed when no energy left (fixes temp removal of debuffs)
