@@ -73,14 +73,14 @@ public class PlayersMove implements Runnable, Listener {
 
 		int targets = Players.getPlayerWatcher(e.getPlayer()).getNbTargets();
 		
-		if (e.getCause() == TeleportCause.NETHER_PORTAL && targets < 10) {
+		if (targets < 10 && e.getCause() == TeleportCause.NETHER_PORTAL) {
 			e.setCancelled(true);
 			e.getPlayer().sendMessage(ChatColor.RED + "You must have completed at least 10 targets to enter this portal.");
 			return;
 		
-		} else if (e.getCause() == TeleportCause.END_PORTAL && targets < 25) {
+		} else if (targets < 30 && e.getCause() == TeleportCause.END_PORTAL) {
 			e.setCancelled(true);
-			e.getPlayer().sendMessage(ChatColor.RED + "You must have completed at least 25 targets to enter this portal.");
+			e.getPlayer().sendMessage(ChatColor.RED + "You must have completed at least 30 targets to enter this portal.");
 			return;
 		}
 	}

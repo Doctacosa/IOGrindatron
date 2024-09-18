@@ -158,11 +158,14 @@ public class PlayerActions implements Listener {
 			player.sendMessage(ChatColor.RED + "You must have completed at least 10 targets to equip this.");
 			return true;
 
-		} else if (targets < 20 && (
-			item.getType().toString().startsWith("NETHERITE_") ||
-			item.getType() == Material.ELYTRA)) {
+		} else if (targets < 20 && item.getType().toString().startsWith("NETHERITE_")) {
 			player.sendMessage(ChatColor.RED + "You must have completed at least 20 targets to equip this.");
 			return true;
+
+		} else if (targets < 30 && item.getType() == Material.ELYTRA) {
+			player.sendMessage(ChatColor.RED + "You must have completed at least 30 targets to equip this.");
+			return true;
+
 		}
 
 		return false;
