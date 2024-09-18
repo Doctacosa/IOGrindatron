@@ -90,14 +90,15 @@ public class PlayerActions implements Listener {
 			}, 1L);
 
 		} else if (event.getSlotType() == InventoryType.SlotType.RESULT) {
-			if (event.getCurrentItem().getType().toString().startsWith("NETHERITE_") && targets < 15) {
-				event.setCancelled(true);
-				event.getWhoClicked().sendMessage(ChatColor.RED + "You must have completed at least 15 targets to craft this.");
-				return;
 
-			} else if (event.getCurrentItem().getType().toString().startsWith("DIAMOND_") && targets < 10) {
+			if (targets < 10 && event.getCurrentItem().getType().toString().startsWith("DIAMOND_")) {
 				event.setCancelled(true);
 				event.getWhoClicked().sendMessage(ChatColor.RED + "You must have completed at least 10 targets to craft this.");
+				return;
+
+			} else if (targets < 20 && event.getCurrentItem().getType().toString().startsWith("NETHERITE_")) {
+				event.setCancelled(true);
+				event.getWhoClicked().sendMessage(ChatColor.RED + "You must have completed at least 20 targets to craft this.");
 				return;
 			}
 
@@ -153,11 +154,14 @@ public class PlayerActions implements Listener {
 
 		int targets = Players.getPlayerWatcher(player).getNbTargets();
 
-		if (item.getType().toString().startsWith("NETHERITE_") && targets < 15) {
-			player.sendMessage(ChatColor.RED + "You must have completed at least 15 targets to equip this.");
-			return true;
-		} else if (item.getType().toString().startsWith("DIAMOND_") && targets < 10) {
+		if (targets < 10 && item.getType().toString().startsWith("DIAMOND_")) {
 			player.sendMessage(ChatColor.RED + "You must have completed at least 10 targets to equip this.");
+			return true;
+
+		} else if (targets < 20 && (
+			item.getType().toString().startsWith("NETHERITE_") ||
+			item.getType() == Material.ELYTRA)) {
+			player.sendMessage(ChatColor.RED + "You must have completed at least 20 targets to equip this.");
 			return true;
 		}
 
