@@ -173,14 +173,19 @@ public class Database {
 			query = "" +
 				"SELECT uuid, COUNT(*) AS amount " +
 				"FROM grindatron__cycles_players " +
-				"WHERE done = 1 ";
+				"WHERE done = 1 " +
+				"GROUP BY uuid ";
 			PreparedStatement pstmt = conn.prepareStatement(query);
 			
 			ResultSet rs = pstmt.executeQuery();
 			
 			while (rs.next()) {
+				String uuid = rs.getString("uuid");
+				if (uuid == null)
+					continue;
+
 				scores.put(
-					UUID.fromString(rs.getString("uuid")),
+					UUID.fromString(uuid),
 					rs.getInt("amount")
 				);
 			}
