@@ -5,6 +5,9 @@ import com.interordi.iogrindatron.utilities.ActionBar;
 import com.interordi.iogrindatron.utilities.Database;
 import com.interordi.iogrindatron.utilities.Scores;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -47,6 +50,17 @@ public class IOGrindatron extends JavaPlugin {
 
 		db = new Database(this, dbHost, dbPort, dbUsername, dbPassword, dbBase);
 		db.init();
+
+		//Read progression gates
+		Map< String, Integer > gates = new HashMap< String, Integer >();
+		gates.put("access-nether", this.getConfig().getInt("gates.access-nether", 10));
+		gates.put("access-end", this.getConfig().getInt("gates.access-end", 20));
+		gates.put("craft-diamond", this.getConfig().getInt("gates.craft-diamond", 10));
+		gates.put("craft-netherite", this.getConfig().getInt("gates.craft-netherite", 20));
+		gates.put("equip-diamond", this.getConfig().getInt("gates.equip-diamond", 10));
+		gates.put("equip-netherite", this.getConfig().getInt("gates.equip-netherite", 20));
+		gates.put("equip-elytra", this.getConfig().getInt("gates.equip-elytra", 30));
+		Players.setGates(gates);
 		
 		getLogger().info("IOGrindatron enabled");
 		

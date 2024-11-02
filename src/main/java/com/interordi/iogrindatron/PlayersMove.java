@@ -73,14 +73,14 @@ public class PlayersMove implements Runnable, Listener {
 
 		int targets = Players.getPlayerWatcher(e.getPlayer()).getNbTargets();
 		
-		if (targets < 10 && e.getCause() == TeleportCause.NETHER_PORTAL) {
+		if (targets < Players.getGate("access-nether") && e.getCause() == TeleportCause.NETHER_PORTAL) {
 			e.setCancelled(true);
-			e.getPlayer().sendMessage(ChatColor.RED + "You must have completed at least 10 targets to enter this portal.");
+			e.getPlayer().sendMessage(ChatColor.RED + "You must have completed at least " + Players.getGate("access-nether") + " targets to enter this portal.");
 			return;
 		
-		} else if (targets < 30 && e.getCause() == TeleportCause.END_PORTAL) {
+		} else if (targets < Players.getGate("access-end") && e.getCause() == TeleportCause.END_PORTAL) {
 			e.setCancelled(true);
-			e.getPlayer().sendMessage(ChatColor.RED + "You must have completed at least 30 targets to enter this portal.");
+			e.getPlayer().sendMessage(ChatColor.RED + "You must have completed at least " + Players.getGate("access-end") + " targets to enter this portal.");
 			return;
 		}
 	}

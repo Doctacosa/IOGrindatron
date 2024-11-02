@@ -4,3 +4,12 @@ database:
   base: minecraft
   username: root
   password: 
+
+gates:
+  access-nether: 10
+  access-end: 20
+  craft-diamond: 10
+  craft-netherite: 20
+  equip-diamond: 10
+  equip-netherite: 20
+  equip-elytra: 30

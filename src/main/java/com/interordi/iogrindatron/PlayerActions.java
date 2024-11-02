@@ -91,14 +91,14 @@ public class PlayerActions implements Listener {
 
 		} else if (event.getSlotType() == InventoryType.SlotType.RESULT) {
 
-			if (targets < 10 && event.getCurrentItem().getType().toString().startsWith("DIAMOND_")) {
+			if (targets < Players.getGate("craft-diamond") && event.getCurrentItem().getType().toString().startsWith("DIAMOND_")) {
 				event.setCancelled(true);
-				event.getWhoClicked().sendMessage(ChatColor.RED + "You must have completed at least 10 targets to craft this.");
+				event.getWhoClicked().sendMessage(ChatColor.RED + "You must have completed at least " + Players.getGate("craft-diamond") + " targets to craft this.");
 				return;
 
-			} else if (targets < 20 && event.getCurrentItem().getType().toString().startsWith("NETHERITE_")) {
+			} else if (targets < Players.getGate("craft-netherite") && event.getCurrentItem().getType().toString().startsWith("NETHERITE_")) {
 				event.setCancelled(true);
-				event.getWhoClicked().sendMessage(ChatColor.RED + "You must have completed at least 20 targets to craft this.");
+				event.getWhoClicked().sendMessage(ChatColor.RED + "You must have completed at least " + Players.getGate("craft-netherite") + " targets to craft this.");
 				return;
 			}
 
@@ -154,16 +154,16 @@ public class PlayerActions implements Listener {
 
 		int targets = Players.getPlayerWatcher(player).getNbTargets();
 
-		if (targets < 10 && item.getType().toString().startsWith("DIAMOND_")) {
-			player.sendMessage(ChatColor.RED + "You must have completed at least 10 targets to equip this.");
+		if (targets < Players.getGate("equip-diamond") && item.getType().toString().startsWith("DIAMOND_")) {
+			player.sendMessage(ChatColor.RED + "You must have completed at least " + Players.getGate("equip-diamond") + " targets to equip this.");
 			return true;
 
-		} else if (targets < 20 && item.getType().toString().startsWith("NETHERITE_")) {
-			player.sendMessage(ChatColor.RED + "You must have completed at least 20 targets to equip this.");
+		} else if (targets < Players.getGate("equip-netherite") && item.getType().toString().startsWith("NETHERITE_")) {
+			player.sendMessage(ChatColor.RED + "You must have completed at least " + Players.getGate("equip-netherite") + " targets to equip this.");
 			return true;
 
-		} else if (targets < 30 && item.getType() == Material.ELYTRA) {
-			player.sendMessage(ChatColor.RED + "You must have completed at least 30 targets to equip this.");
+		} else if (targets < Players.getGate("equip-elytra") && item.getType() == Material.ELYTRA) {
+			player.sendMessage(ChatColor.RED + "You must have completed at least " + Players.getGate("equip-elytra") + " targets to equip this.");
 			return true;
 
 		}

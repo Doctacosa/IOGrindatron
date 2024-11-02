@@ -20,11 +20,24 @@ import org.bukkit.inventory.PlayerInventory;
 public class Players {
 
 	static private Map< UUID , PlayerWatcher > players = new HashMap< UUID, PlayerWatcher >();
+	static private Map< String , Integer > gates = new HashMap< String, Integer >();
 	static private PeriodManager periods = null;
 
 
 	public static void setPeriodManager(PeriodManager periods) {
 		Players.periods = periods;
+	}
+
+
+	//Store all the gates for future checks
+	public static void setGates(Map< String, Integer > gates) {
+		Players.gates.putAll(gates);
+	}
+
+
+	//Return the target of a gate
+	public static int getGate(String gate) {
+		return gates.get(gate);
 	}
 
 	
