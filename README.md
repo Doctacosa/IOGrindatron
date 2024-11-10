@@ -39,6 +39,15 @@ To understand how this is played from a player's perspective, [see this guide on
 `database.username`: Database username  
 `database.password`: Database password  
 
+Progression gates, indicating how many targets have to be completed before the players are allowed to do something:
+`gates.access-nether`: Access the Nether
+`gates.access-end`: Access the End
+`gates.craft-diamond`: Craft diamond tools and equipment
+`gates.craft-netherite`: Craft netherite tools and equipment
+`gates.equip-diamond`: Equip diamond tools and equipment
+`gates.equip-netherite`: Equip netherite tools and equipment
+`gates.equip-elytra`: Equip an elytra
+
 
 ## Commands
 
