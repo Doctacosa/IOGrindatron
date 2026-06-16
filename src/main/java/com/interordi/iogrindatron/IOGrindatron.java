@@ -8,6 +8,7 @@ import com.interordi.iogrindatron.utilities.Scores;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bstats.bukkit.Metrics;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -62,8 +63,6 @@ public class IOGrindatron extends JavaPlugin {
 		gates.put("equip-elytra", this.getConfig().getInt("gates.equip-elytra", 30));
 		Players.setGates(gates);
 		
-		getLogger().info("IOGrindatron enabled");
-		
 		//Run initial required tasks once
 		getServer().getScheduler().scheduleSyncDelayedTask(this, () -> {
 			PlayerWatcher.initScore(this);
@@ -74,6 +73,12 @@ public class IOGrindatron extends JavaPlugin {
 		
 		//Check for player movements every 10 seconds
 		getServer().getScheduler().scheduleSyncRepeatingTask(this, playersMove, 10*20L, 10*20L);
+
+		//Enable metrics
+		@SuppressWarnings("unused")
+		Metrics metrics = new Metrics(this, 32023);
+
+		getLogger().info("IOGrindatron enabled");
 	}
 	
 	
