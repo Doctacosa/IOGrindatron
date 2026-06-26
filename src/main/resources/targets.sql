@@ -1163,5 +1163,9 @@ INSERT INTO `grindatron__possible_targets` (`item`, `rarity`, `max`, `odds`, `la
 
 	('MUSIC_DISC_CREATOR_MUSIC_BOX', 5, 1, 0.5, ''),
 	('MUSIC_DISC_CREATOR', 5, 1, 0.5, ''),
-	('MUSIC_DISC_PRECIPICE', 5, 1, 0.5, '')
+	('MUSIC_DISC_PRECIPICE', 5, 1, 0.5, ''),
+
+
+	-- New in 26.1
+	('GOLDEN_DANDELION', 2, 64, 1, '')
 ;
